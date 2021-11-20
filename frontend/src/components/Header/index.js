@@ -1,8 +1,8 @@
 import React from 'react';
 import './header.css'
 import {Button} from "@mui/material";
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import { ReactComponent as Logo } from '../../assets/Logo.svg';
+import {Link} from "react-router-dom";
 
 const Header = () => {
   return (
@@ -14,12 +14,12 @@ const Header = () => {
           <div className='text'>Bellissimo@mail.com</div>
         </div>
         <div className='group'>
-          <a className='link'>Сертификаты</a>
-          <a className='link'>Помощь</a>
+          <Link to='/certificates' className='link'>Сертификаты</Link>
+          <Link to='/help' className='link'>Помощь</Link>
         </div>
       </div>
       <div className='header header-lower'>
-        <a className='logo'><Logo/></a>
+        <Link to='/' className='logo'><Logo/></Link>
         <div className='group'>
           <a className='link'>История заказов</a>
           <a className='link'>Избранное</a>
