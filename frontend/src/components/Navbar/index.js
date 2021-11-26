@@ -1,5 +1,5 @@
 import React from 'react';
-import './navbar.css'
+import './Navbar.css'
 import {categories} from '../../mocks/categories'
 import {Link} from "react-router-dom";
 
