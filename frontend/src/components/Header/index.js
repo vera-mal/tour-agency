@@ -1,5 +1,5 @@
 import React from 'react';
-import './header.css'
+import './Header.css'
 import {Button} from "@mui/material";
 import { ReactComponent as Logo } from '../../assets/Logo.svg';
 import {Link} from "react-router-dom";
