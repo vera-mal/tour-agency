@@ -1,6 +1,7 @@
 import './App.css';
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
+import UiKit from "./pages/UiKit";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path='/certificates' element={<>Сертификаты</>} />
           <Route path='/help' element={<>Помощь</>} />
           <Route path='*' element={<></>} />
+          <Route path='/ui-kit' element={<UiKit />} />
         </Routes>
       </div>
     </BrowserRouter>
