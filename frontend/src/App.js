@@ -1,6 +1,7 @@
 import './App.css';
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
+import Footer from './components/Footer';
 import UiKit from "./pages/UiKit";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import PageHeading from "./components/PageHeading";
@@ -27,6 +28,7 @@ function App() {
             <HelpButton />
           </div>
         </div>
+      <Footer />
       </div>
     </BrowserRouter>
   );
