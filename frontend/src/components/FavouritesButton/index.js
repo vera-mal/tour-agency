@@ -10,7 +10,7 @@ const FavouritesButton = ({isLikedDefault = false, onSelect = () => {}}) => {
 
   return (
     <div className='favourites-button' onClick={() => setIsLiked(!isLiked)}>
-      <i className={`${isLiked ? 'fas' : 'far'} fa-heart`}></i>
+      <i className={`${isLiked ? 'fas' : 'far'} fa-heart fa-2x`} />
     </div>
   );
 };

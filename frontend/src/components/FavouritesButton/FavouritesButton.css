@@ -1,4 +1,7 @@
 .favourites-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #9DC2FF;
   box-sizing: border-box;
   border-radius: 4px;
@@ -7,10 +10,5 @@
 }
 
 .favourites-button i {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
   color: #2979FF;
 }
