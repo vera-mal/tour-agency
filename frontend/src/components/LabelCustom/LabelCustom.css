@@ -1,0 +1,10 @@
+.label-custom {
+  font-size: 24px;
+  letter-spacing: 0.018em;
+
+  padding: 16px 36px;
+
+  color: #4A4B57;
+  background-color: #EDEDF0;
+  border-radius: 99px;
+}

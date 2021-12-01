@@ -1,6 +1,7 @@
 import './App.css';
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
+import UiKit from "./pages/UiKit";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import FavouritesButton from "./components/FavouritesButton";
 
@@ -10,12 +11,12 @@ function App() {
       <div className="App">
         <Header />
         <Navbar />
-        <FavouritesButton />
         <Routes>
           <Route path='/' element={<>Главная</>} />
           <Route path='/certificates' element={<>Сертификаты</>} />
           <Route path='/help' element={<>Помощь</>} />
           <Route path='*' element={<></>} />
+          <Route path='/ui-kit' element={<UiKit />} />
         </Routes>
       </div>
     </BrowserRouter>
