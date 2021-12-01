@@ -1,0 +1,17 @@
+.helping-button {
+    display: flex;
+    align-items: center;
+  }
+
+.help-button {
+    border-radius: 100%;
+    width: 79px;
+    height: 79px;
+    background-color: #606364;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .help-button i{
+    color: #fff;
+  }
