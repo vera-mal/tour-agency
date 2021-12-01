@@ -1,17 +1,21 @@
 .helping-button {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 
 .help-button {
-    border-radius: 100%;
-    width: 79px;
-    height: 79px;
-    background-color: #606364;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .help-button i{
-    color: #fff;
-  }
+  border-radius: 100%;
+  width: 79px;
+  height: 79px;
+  background-color: #606364;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-button i {
+  color: #fff;
+}
