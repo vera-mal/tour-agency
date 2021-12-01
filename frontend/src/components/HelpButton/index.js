@@ -1,11 +1,12 @@
 import React from 'react';
 import './HelpButton.css';
+import {Link} from "react-router-dom";
 
-const HelpButton = ({onClick = () => {}}) => {
+const HelpButton = () => {
   return (
-    <div className='helping-button'>
-      <button onClick={onClick} className='help-button'><i class="fas fa-exclamation fa-3x"></i></button>
-    </div>
+    <Link to='/help' className='helping-button'>
+      <div className='help-button'><i class="fas fa-exclamation fa-3x" /></div>
+    </Link>
   );
 };
 
