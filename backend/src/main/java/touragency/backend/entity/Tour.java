@@ -1,6 +1,10 @@
 package touragency.backend.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -24,15 +28,20 @@ public class Tour {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "image_path")
-    private String imagePath;
+    @Column(name = "images_path")
+    private String imagesPath;
 
     @Column(name = "price", columnDefinition = "DECIMAL(12,2)")
     private BigDecimal price;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "tour_category",
                joinColumns = @JoinColumn(name = "tour_id"),
                inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "ticketAmount")
+    private List<Event> events;
 }
