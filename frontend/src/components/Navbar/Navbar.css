@@ -1,0 +1,22 @@
+.navbar {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 21px 4px 4px;
+  color: #787885;
+  text-decoration: none;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 17px;
+}

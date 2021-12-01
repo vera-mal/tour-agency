@@ -1,0 +1,33 @@
+.increment-decrement {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  border-radius: 100%;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.plus {
+  border: 1px solid #A9D3AB;
+}
+
+.plus i{
+  color: #37833B;
+}
+
+.minus {
+  border: 1px solid #FAA9A3;
+}
+
+.minus i{
+  color: #C8372D;
+}
+
+.value {
+  margin: 0 26px;
+  color: #19191D;
+}
