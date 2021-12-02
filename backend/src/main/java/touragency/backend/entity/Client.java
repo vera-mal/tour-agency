@@ -34,4 +34,11 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
+
+    @ManyToMany
+    @JoinTable(
+            name = "favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tour_id"))
+    private List<Tour> favorites;
 }
