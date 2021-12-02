@@ -5,8 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import touragency.backend.entity.Category;
+import touragency.backend.entity.Certificate;
 import touragency.backend.entity.Event;
 import touragency.backend.entity.Tour;
+import touragency.backend.repository.CertificateRepository;
 import touragency.backend.repository.EventRepository;
 import touragency.backend.repository.TourRepository;
 import touragency.backend.service.CategoryService;
@@ -24,7 +26,7 @@ public class BackendApplication {
 
 	@Bean
 	public CommandLineRunner demo(CategoryService categoryService, TourRepository tourRepository,
-								  TourService tourService, EventRepository eventRepository) {
+								  EventRepository eventRepository, CertificateRepository certificateRepository) {
 		return (args) -> {
 			Category category1 = new Category(null, "boat-trips", "Водные прогулки");
 			Category category2 = new Category(null, "walking-tours", "Пешие экскурсии");
@@ -62,6 +64,13 @@ public class BackendApplication {
 			Event event2 = new Event(null, tour, LocalDateTime.now().plusDays(10), 20);
 			eventRepository.save(event1);
 			eventRepository.save(event2);
+
+			Certificate certificate1 = new Certificate(null, BigDecimal.valueOf(1000));
+			Certificate certificate2 = new Certificate(null, BigDecimal.valueOf(3000));
+			Certificate certificate3 = new Certificate(null, BigDecimal.valueOf(5000));
+			certificateRepository.save(certificate1);
+			certificateRepository.save(certificate2);
+			certificateRepository.save(certificate3);
 		};
 	}
 }
