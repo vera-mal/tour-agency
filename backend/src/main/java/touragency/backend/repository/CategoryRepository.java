@@ -6,4 +6,5 @@ import touragency.backend.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    Category findCategoryByEnglishName(String englishName);
 }

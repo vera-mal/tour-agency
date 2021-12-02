@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import touragency.backend.dto.TourDTO;
+import touragency.backend.entity.Category;
 import touragency.backend.entity.Tour;
+import touragency.backend.repository.CategoryRepository;
 import touragency.backend.repository.EventRepository;
 import touragency.backend.repository.TourRepository;
 
@@ -19,11 +21,19 @@ import java.util.stream.Collectors;
 public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
     private final EventRepository eventRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<TourDTO> getAllTours() {
-        List<Tour> allTours = tourRepository.findAll();
-        return allTours.stream()
+        return tourRepository.findAll().stream()
+                .map(this::convertTourToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TourDTO> getToursByCategoryName(String categoryName) {
+        Category category = categoryRepository.findCategoryByEnglishName(categoryName);
+        return tourRepository.findAllByCategoriesIsContaining(category).stream()
                 .map(this::convertTourToDTO)
                 .collect(Collectors.toList());
     }
