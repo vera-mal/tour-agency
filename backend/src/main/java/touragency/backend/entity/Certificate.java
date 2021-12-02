@@ -24,5 +24,5 @@ public class Certificate {
     private BigDecimal price;
 
     @Column(name = "image_path")
-    private final String imagePath = "https://lh3.googleusercontent.com/proxy/FDfhV_aq3YlDbMs_IZe2tZnnP_A5RH8NwNIgventaMDZ3F00oy1kpfm-exXkW0Avszg3aOAnQemMkfQ27sevHyadbJAkngAHvwN8uoaMsn0WB1P9xbr8Ri3CWRRrSvJnbMvagLANgIoNkLI0kMz8DeAuScXL8zcRqVjZ1naze1tQDNbQUJ3eGlFJ";
+    private final String imagePath = "https://amparus.ru/templates/yootheme/cache/20201217_125252_0000-87829d04.png";
 }
