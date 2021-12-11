@@ -7,13 +7,31 @@ import {Routes, Route, BrowserRouter} from "react-router-dom";
 import PageHeading from "./components/PageHeading";
 import HelpPage from "./pages/Help";
 import HelpButton from "./components/HelpButton";
+import React, {useEffect, useState} from "react";
+import {Backdrop, CircularProgress} from "@mui/material";
 
 function App() {
+  const [error, setError] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/categories')
+      .then(res => res.json())
+      .then((result) => {
+          setCategories(result);
+          setIsLoaded(true);
+        },
+        (error) => {
+          setError(error);
+        })
+  })
+
   return (
     <BrowserRouter>
       <div className="App">
         <Header />
-        <Navbar />
+        <Navbar categories={categories}/>
         <div className='layout'>
           <Routes>
             <Route path='/' element={<PageHeading>Главная</PageHeading>} />
@@ -28,7 +46,7 @@ function App() {
             <HelpButton />
           </div>
         </div>
-      <Footer />
+      <Footer categories={categories}/>
       </div>
     </BrowserRouter>
   );
