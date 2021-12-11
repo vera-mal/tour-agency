@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import touragency.backend.dto.Help;
 import touragency.backend.service.HelpService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,7 +17,7 @@ public class HelpController {
     private final HelpService helpService;
 
     @GetMapping("/help")
-    public Map<String, String> getHelp() {
+    public Help getHelp() {
         return helpService.getAllHelps();
     }
 }

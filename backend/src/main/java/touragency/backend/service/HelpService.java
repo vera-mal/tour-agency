@@ -1,7 +1,8 @@
 package touragency.backend.service;
 
-import java.util.Map;
+import touragency.backend.dto.Help;
+
 
 public interface HelpService {
-    Map<String, String> getAllHelps();
+    Help getAllHelps();
 }
