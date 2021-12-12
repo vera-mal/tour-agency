@@ -11,8 +11,8 @@ const Footer = ({categories = []}) => {
           <>
           <div className='footer-logo-text'>
             <Link to='/' className='footer-logo'><Logo/></Link>
-            <div className='footer-heading footer-description'>Fusce ut elit aliquet, fermentum leo vel, tempus nunc.
-              Fusce eu rhoncus augue. Fusce vel metus pharetra, fermentum
+            <div className='footer-heading footer-description'>
+              Присоединяйтесь к нашей дружной компании и исследуйте тайны Петербурга вместе с нами!
             </div>
           </div>
 
@@ -32,10 +32,10 @@ const Footer = ({categories = []}) => {
           </div>
 
           <div className='footer-icons'>
-          <a href='https://www.google.ru/' className='footer-icon'><i class="fab fa-google-plus-g" /></a>
-          <a href='https://ru-ru.facebook.com/' className='footer-icon'><i class="fab fa-facebook-f" /></a>
-          <a href='https://twitter.com/home' className='footer-icon'><i class="fab fa-twitter" /></a>
-          <a href='https://www.instagram.com/' className='footer-icon'><i class="fab fa-instagram" /></a>
+          <a href='https://www.google.ru/' className='footer-icon'><i className="fab fa-google-plus-g" /></a>
+          <a href='https://ru-ru.facebook.com/' className='footer-icon'><i className="fab fa-facebook-f" /></a>
+          <a href='https://twitter.com/home' className='footer-icon'><i className="fab fa-twitter" /></a>
+          <a href='https://www.instagram.com/' className='footer-icon'><i className="fab fa-instagram" /></a>
           </div>
           </>
         }

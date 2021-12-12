@@ -36,9 +36,14 @@ const ProductComponent = ({
             <>
               <div className='product-item-left'>
                 <img src={imageUrl} alt="" className="product-image"/>
-                {type === 'favs' ?
-                  <button onClick={(event) => onDeleteClick(event, id)} className='product-item-delete-button'>Удалить</button>
-                  : type === 'certificate' && !!certificateAmount && (
+                {type === 'favs' ? (
+                    <button
+                      onClick={(event) => onDeleteClick(event, id)}
+                      className='product-item-delete-button'
+                    >
+                      Удалить
+                    </button>
+                  ) : type === 'certificate' && !!certificateAmount && (
                     <button
                       onClick={(event) => {
                         onAddToCartClick(event, id, certificateAmount);

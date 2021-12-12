@@ -4,14 +4,14 @@ import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
 import UiKit from "./pages/UiKit";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
-import PageHeading from "./components/PageHeading";
 import HelpPage from "./pages/Help";
 import HelpButton from "./components/HelpButton";
 import React, {useCallback, useEffect, useState} from "react";
-import {Backdrop, CircularProgress} from "@mui/material";
 import Certificates from "./pages/Certificates";
+import Main from "./pages/Main";
 
 function App() {
+  const [path, setPath] = useState('');
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -36,10 +36,10 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header />
-        <Navbar categories={categories}/>
+        <Navbar categories={categories} />
         <div className='layout'>
           <Routes>
-            <Route path='/' element={<PageHeading>Главная</PageHeading>} />
+            <Route path='/' element={<Main />} />
             <Route path='/certificates' element={<Certificates />} />
             <Route path='/help' element={<HelpPage />} />
             <Route path='*' element={<></>} />

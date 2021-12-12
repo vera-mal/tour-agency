@@ -1,6 +1,6 @@
 import React from 'react';
 import './Navbar.css'
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const getIcon = (name) => {
   switch (name) {
@@ -14,21 +14,31 @@ const getIcon = (name) => {
 }
 
 const Navbar = ({categories = []}) => {
+  const location = useLocation();
 
   return (
     <div className='navbar'>
       {categories && categories?.length !== 0 &&
         <>
-          <Link to='/' className='category'><i className="icon fas fa-camera-retro" />
+          <Link to='/' className={'category' + (location.pathname === '/' ? ' category-blue' : '')}>
+            <i className="icon fas fa-camera-retro" />
             <div className='name'>Все экскурсии</div>
           </Link>
           {categories.map((category) =>
-            <Link key={category.id} to={'/' + category.englishName} className='category'>
+            <Link
+              key={category.id}
+              to={'/' + category.englishName}
+              className={'category' + (location.pathname === '/' + category.englishName ? ' category-blue' : '')}
+            >
               <i className={'icon fas ' + getIcon(category.englishName)} />
               <div className='name'>{category.russianName}</div>
             </Link>
           )}
-          <Link to='/certificates' className='category'><i className="icon fas fa-percent" />
+          <Link
+            to='/certificates'
+            className={'category' + (location.pathname === '/certificates' ? ' category-blue' : '')}
+          >
+            <i className="icon fas fa-percent" />
             <div className='name'>Сертификаты</div>
           </Link>
         </>
