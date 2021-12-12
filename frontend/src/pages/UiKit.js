@@ -18,9 +18,9 @@ const UiKit = () => {
       <ClosingButton/>
       <HelpButton/>
       <LabelCustom text='Вы успешно зарегистрированы, можете авторизоваться' width="400px"/>
-      <ProductComponent />
-      <ProductComponent type='favs'/>
-      <ProductComponent type='certificate'/>
+      <ProductComponent id={0} />
+      <ProductComponent id={0} type='favs'/>
+      <ProductComponent id={0} type='certificate'/>
     </div>
   );
 };

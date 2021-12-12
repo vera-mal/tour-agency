@@ -4,7 +4,7 @@ import image from '../../mocks/image1.png'
 import IncDec from "../IncDec";
 
 const ProductComponent = ({
-    id = 0,
+    id,
     title = 'Название',
     price = 10,
     imageUrl = image,

@@ -27,7 +27,7 @@ const Certificates = () => {
   }, [fetchData])
 
   return (
-    <div>
+    <>
       <PageHeading>Сертификаты</PageHeading>
       <Spinner isVisible={!isLoaded}/>
 
@@ -36,18 +36,19 @@ const Certificates = () => {
           content.map((certificate) =>
             <ProductComponent
               key={certificate.id}
+              id={certificate.id}
               type='certificate'
               title={'Сертификат на сумму '+ certificate.price + ' рублей'}
               price={certificate.price}
               imageUrl={certificate.imagePath}
-              onAddToCartClick={(id, certificateAmount) => {
+              onAddToCartClick={(event, id, certificateAmount) => {
                 console.log('Добавить в корзину сертификат с id ' + id + ', ' + certificateAmount + ' шт.')
               }}
             />
           )
         }
       </div>
-    </div>
+    </>
   );
 };
 

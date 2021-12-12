@@ -9,6 +9,7 @@ import HelpButton from "./components/HelpButton";
 import React, {useCallback, useEffect, useState} from "react";
 import Certificates from "./pages/Certificates";
 import Main from "./pages/Main";
+import Favourites from "./pages/Favourites";
 
 function App() {
   const [path, setPath] = useState('');
@@ -44,6 +45,7 @@ function App() {
             <Route path='/help' element={<HelpPage />} />
             <Route path='*' element={<></>} />
             <Route path='/ui-kit' element={<UiKit />} />
+            <Route path='/favourites' element={<Favourites />} />
           </Routes>
         </div>
         <div className='app-upper-layer'>
