@@ -16,7 +16,7 @@
   min-height: 260px;
 }
 
-.catalogue{
+.catalogue {
   flex-direction: column;
   width: unset;
   max-width: 339px;

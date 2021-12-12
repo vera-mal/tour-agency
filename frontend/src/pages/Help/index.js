@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PageHeading from "../../components/PageHeading";
 import './Help.css'
 import Spinner from "../../components/Spinner";
@@ -8,18 +8,22 @@ const HelpPage = () => {
   const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/help')
       .then(res => res.json())
       .then((result) => {
-        setContent(result);
-        setIsLoaded(true);
-      },
+          setContent(result);
+          setIsLoaded(true);
+        },
         (error) => {
           setIsLoaded(true);
           setError(error);
         })
-  })
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData])
 
   return (
     <div>
