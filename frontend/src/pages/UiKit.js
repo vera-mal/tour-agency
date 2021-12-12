@@ -4,6 +4,7 @@ import HelpButton from '../components/HelpButton';
 import LabelCustom from '../components/LabelCustom';
 import IncDec from '../components/IncDec'
 import ProductComponent from "../components/ProductComponent";
+import IncDecGroup from "../components/IncDecGroup";
 
 const UiKit = () => {
   const [value, setValue] = useState(0);
@@ -21,6 +22,8 @@ const UiKit = () => {
       <ProductComponent id={0} />
       <ProductComponent id={0} type='favs'/>
       <ProductComponent id={0} type='certificate'/>
+      <IncDecGroup isReadOnly prices={{full: 1000, seniors: 500, minors: 500}}/>
+      <IncDecGroup prices={{full: 1000, seniors: 500, minors: 500}}/>
     </div>
   );
 };
