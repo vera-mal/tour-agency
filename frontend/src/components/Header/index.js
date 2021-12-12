@@ -22,7 +22,7 @@ const Header = () => {
         <Link to='/' className='logo'><Logo/></Link>
         <div className='group'>
           <a className='link'>История заказов</a>
-          <a className='link'>Избранное</a>
+          <Link to='/favourites' className='link'>Избранное</Link>
           <a className='link'>Корзина</a>
           <Button variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Выход</Button>
         </div>
