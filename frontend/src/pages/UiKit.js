@@ -3,6 +3,7 @@ import ClosingButton from '../components/ClosingButton';
 import HelpButton from '../components/HelpButton';
 import LabelCustom from '../components/LabelCustom';
 import IncDec from '../components/IncDec'
+import ProductComponent from "../components/ProductComponent";
 
 const UiKit = () => {
   const [value, setValue] = useState(0);
@@ -17,6 +18,9 @@ const UiKit = () => {
       <ClosingButton/>
       <HelpButton/>
       <LabelCustom text='Вы успешно зарегистрированы, можете авторизоваться' width="400px"/>
+      <ProductComponent />
+      <ProductComponent type='favs'/>
+      <ProductComponent type='certificate'/>
     </div>
   );
 };
