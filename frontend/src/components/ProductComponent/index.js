@@ -27,7 +27,7 @@ const ProductComponent = ({
       <div className={'product-item-content ' + type}>
         {type === 'catalogue' ? (
             <>
-              <img src={image} alt="" className="product-image"/>
+              <img src={imageUrl} alt="" className="product-image"/>
               <div className="product-title">{title}</div>
               <div className="product-date">Ближайшая экскурсия: {date}</div>
               <div className="product-price">&#8381;{price}</div>
@@ -35,7 +35,7 @@ const ProductComponent = ({
           ) : (
             <>
               <div className='product-item-left'>
-                <img src={image} alt="" className="product-image"/>
+                <img src={imageUrl} alt="" className="product-image"/>
                 {type === 'favs' ?
                   <button onClick={(event) => onDeleteClick(event, id)} className='product-item-delete-button'>Удалить</button>
                   : type === 'certificate' && !!certificateAmount && (
