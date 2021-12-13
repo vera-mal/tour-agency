@@ -5,6 +5,8 @@ import LabelCustom from '../components/LabelCustom';
 import IncDec from '../components/IncDec'
 import ProductComponent from "../components/ProductComponent";
 import IncDecGroup from "../components/IncDecGroup";
+import UserInputForm from '../components/UserInputForm';
+import AuthorizationForm from '../components/AuthorizationForm';
 
 const UiKit = () => {
   const [value, setValue] = useState(0);
@@ -24,6 +26,8 @@ const UiKit = () => {
       <ProductComponent id={0} type='certificate'/>
       <IncDecGroup isReadOnly prices={{full: 1000, seniors: 500, minors: 500}}/>
       <IncDecGroup prices={{full: 1000, seniors: 500, minors: 500}}/>
+      <UserInputForm />
+      <AuthorizationForm />
     </div>
   );
 };

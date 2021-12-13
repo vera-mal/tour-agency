@@ -1,0 +1,92 @@
+.authorization-form {
+  font-family: Inter;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+
+  position: relative;
+  padding: 45px 45px 20px;
+}
+
+.authorization-form-input {
+  display: block;
+  margin: 1em;
+  padding: 1em;
+
+  width: 25em;
+  border-radius: 99px;
+  border-style: none;
+  background: #EDEDF0;
+
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.0075em;
+
+  color: #B4B4BB;
+}
+
+.authorization-form-text {
+  width: 100%;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.0075em;
+  text-align: center;
+
+  color: #231F20;
+  padding: 0 0 0 20px;
+}
+
+.authorization-form-closing-button {
+  position: absolute;
+  top: 30px;
+  right: 1px;
+}
+
+.authorization-form-button {
+  margin: 0.8em;
+  padding: 1em;
+  border: 1px solid #EBF2FF;
+  cursor: pointer;
+  border-radius: 99px;
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.0075em;
+
+  color: #2264D1;
+}
+
+.authorization-form-button-registration {
+  margin: 0.8em;
+  padding: 1em;
+  border: 1px solid #fff;
+  cursor: pointer;
+  border-radius: 99px;
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.0075em;
+
+  color: #2264D1;
+  background-color: #fff;
+}
