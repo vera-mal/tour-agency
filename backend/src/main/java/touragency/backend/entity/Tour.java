@@ -42,6 +42,6 @@ public class Tour {
     private List<Category> categories;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ticketAmount")
+    @OneToMany(mappedBy = "tour")
     private List<Event> events;
 }

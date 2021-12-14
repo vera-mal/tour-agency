@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bellissimo/users")
 @RequiredArgsConstructor
-public class Favorite {
+public class FavoriteController {
     private final UserService userService;
 
     @PostMapping("{userId}/favorite/{tourId}")

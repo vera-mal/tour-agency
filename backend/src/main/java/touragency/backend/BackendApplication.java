@@ -5,11 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import touragency.backend.dto.UserRegistrationDTO;
-import touragency.backend.entity.Category;
-import touragency.backend.entity.Certificate;
-import touragency.backend.entity.Event;
-import touragency.backend.entity.Tour;
+import touragency.backend.entity.*;
 import touragency.backend.repository.CertificateRepository;
+import touragency.backend.repository.DiscountRepository;
 import touragency.backend.repository.EventRepository;
 import touragency.backend.repository.TourRepository;
 import touragency.backend.service.CategoryService;
@@ -28,7 +26,7 @@ public class BackendApplication {
     @Bean
     public CommandLineRunner demo(CategoryService categoryService, TourRepository tourRepository,
                                   EventRepository eventRepository, CertificateRepository certificateRepository,
-                                  UserService userService) {
+                                  UserService userService, DiscountRepository discountRepository) {
         return (args) -> {
             Category category1 = new Category(null, "boat-trips", "Водные прогулки");
             Category category2 = new Category(null, "walking-tours", "Пешие экскурсии");
@@ -297,8 +295,8 @@ public class BackendApplication {
             tourRepository.save(tours[11]);
 
             for (int i = 0; i < 12; i++) {
-                Event event1 = new Event(null, tours[i], LocalDateTime.now().plusDays(5), 20);
-                Event event2 = new Event(null, tours[i], LocalDateTime.now().plusDays(10), 20);
+                Event event1 = new Event(null, tours[i], LocalDateTime.of(2021, 12, 30, 15, 0), 20);
+                Event event2 = new Event(null, tours[i], LocalDateTime.of(2022, 1, 7, 15, 0), 20);
                 eventRepository.save(event1);
                 eventRepository.save(event2);
             }
@@ -312,6 +310,10 @@ public class BackendApplication {
 
             userService.saveUser(new UserRegistrationDTO("Pavel", "Smirnov", "smpas",
                     "1234", "1234"));
+
+            discountRepository.save(new Discount(null, "full", new BigDecimal(1)));
+            discountRepository.save(new Discount(null, "seniors", new BigDecimal("0.7")));
+            discountRepository.save(new Discount(null, "minors", new BigDecimal("0.5")));
         };
     }
 }
