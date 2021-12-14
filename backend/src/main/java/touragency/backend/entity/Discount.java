@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -23,5 +24,5 @@ public class Discount {
     private String name;
 
     @Column(name = "coefficient")
-    private Double coefficient;
+    private BigDecimal coefficient;
 }
