@@ -307,6 +307,10 @@ public class BackendApplication {
 			certificateRepository.save(certificate1);
 			certificateRepository.save(certificate2);
 			certificateRepository.save(certificate3);
+
+
 		};
+
+
 	}
 }
