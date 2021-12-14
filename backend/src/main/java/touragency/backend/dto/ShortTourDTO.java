@@ -6,15 +6,17 @@ import lombok.Setter;
 import touragency.backend.entity.Tour;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
 @Setter
-public class TourDTO {
+public class ShortTourDTO {
     private Long id;
     private String images;
     private String name;
-    private LocalDateTime nearestDate;
     private BigDecimal price;
+
+    public static ShortTourDTO convertTourToShortDTO(Tour tour) {
+        return new ShortTourDTO(tour.getId(), tour.getImagesPath(), tour.getName(), tour.getPrice());
+    }
 }
