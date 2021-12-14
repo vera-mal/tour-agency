@@ -27,8 +27,8 @@ const Navbar = ({categories = []}) => {
           {categories.map((category) =>
             <Link
               key={category.id}
-              to={'/' + category.englishName}
-              className={'category' + (location.pathname === '/' + category.englishName ? ' category-blue' : '')}
+              to={'/category/' + category.englishName}
+              className={'category' + (location.pathname === '/category/' + category.englishName ? ' category-blue' : '')}
             >
               <i className={'icon fas ' + getIcon(category.englishName)} />
               <div className='name'>{category.russianName}</div>
