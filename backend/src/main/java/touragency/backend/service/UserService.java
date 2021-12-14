@@ -11,4 +11,5 @@ public interface UserService {
     UserDTO saveUser(UserRegistrationDTO client);
     void addTourToFavorite(Long userId, Long tourId);
     List<ShortTourDTO> getFavoriteTours(Long userId);
+    void deleteFavoriteTour(Long userId, Long tourId);
 }

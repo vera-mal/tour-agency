@@ -12,6 +12,11 @@ public class ControllerAdvice {
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TourIsNotFavoriteException.class)
+    public ResponseEntity<Response> handleTourIsNotFoundException(TourIsNotFavoriteException e) {
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response> handleAnyException(Exception e) {
         return new ResponseEntity<>(new Response("Something went wrong"), HttpStatus.BAD_REQUEST);

@@ -10,10 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/bellissimo/users")
 @RequiredArgsConstructor
-public class UserController {
+public class Favorite {
     private final UserService userService;
 
-    @PutMapping("{userId}/favorite/{tourId}")
+    @PostMapping("{userId}/favorite/{tourId}")
     public void addTourToFavorite(@PathVariable Long userId, @PathVariable Long tourId) {
         userService.addTourToFavorite(userId, tourId);
     }
@@ -21,5 +21,10 @@ public class UserController {
     @GetMapping("/{userId}/favorite")
     public List<ShortTourDTO> getFavoritesTours(@PathVariable Long userId) {
         return userService.getFavoriteTours(userId);
+    }
+
+    @DeleteMapping("{userId}/favorite/{tourId}")
+    public void deleteFavoriteTour(@PathVariable Long userId, @PathVariable Long tourId) {
+        userService.deleteFavoriteTour(userId, tourId);
     }
 }
