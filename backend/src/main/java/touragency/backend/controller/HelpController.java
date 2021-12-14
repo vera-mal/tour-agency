@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import touragency.backend.dto.Help;
 import touragency.backend.service.HelpService;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/bellissimo")
