@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import ClosingButton from '../components/ClosingButton';
 import HelpButton from '../components/HelpButton';
 import LabelCustom from '../components/LabelCustom';
-import IncDec from '../components/IncDec'
+import IncDec from '../components/IncDec';
+import FavouritesButton from "../components/FavouritesButton";
 import ProductComponent from "../components/ProductComponent";
 import IncDecGroup from "../components/IncDecGroup";
 import UserInputForm from '../components/UserInputForm';
@@ -21,6 +22,7 @@ const UiKit = () => {
       <ClosingButton/>
       <HelpButton/>
       <LabelCustom text='Вы успешно зарегистрированы, можете авторизоваться' width="400px"/>
+      <FavouritesButton />
       <ProductComponent id={0} />
       <ProductComponent id={0} type='favs'/>
       <ProductComponent id={0} type='certificate'/>
