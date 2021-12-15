@@ -3,7 +3,7 @@ import PageHeading from "../../components/PageHeading";
 import Spinner from "../../components/Spinner";
 import {useParams} from "react-router-dom";
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import ClosingButton from "../../components/ClosingButton";
+import FavouritesButton from "../../components/FavouritesButton";
 import './Tour.css';
 
 const Tour = () => {
@@ -62,7 +62,7 @@ const Tour = () => {
                 <div className='tour-time'>{content.time}</div>
               </div>
             </div>
-            <div className='tour-favourite-button'><ClosingButton/></div>
+            <div className='tour-favourite-button'><FavouritesButton/></div>
           </div>
         }
       </div>
