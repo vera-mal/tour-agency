@@ -310,6 +310,9 @@ public class BackendApplication {
 
             userService.saveUser(new UserRegistrationDTO("Pavel", "Smirnov", "smpas",
                     "1234", "1234"));
+            userService.addTourToFavorite(1L, 3L);
+            userService.addTourToFavorite(1L, 7L);
+            userService.addTourToFavorite(1L, 9L);
 
             discountRepository.save(new Discount(null, "full", new BigDecimal(1)));
             discountRepository.save(new Discount(null, "seniors", new BigDecimal("0.7")));

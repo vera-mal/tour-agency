@@ -8,6 +8,8 @@ import touragency.backend.dto.ShortTourDTO;
 import touragency.backend.dto.UserDTO;
 import touragency.backend.dto.UserRegistrationDTO;
 import touragency.backend.entity.Client;
+import touragency.backend.entity.Order;
+import touragency.backend.entity.OrderStatus;
 import touragency.backend.entity.Tour;
 import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.exception.TourIsNotFavoriteException;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
         newClient.setLogin(userDTO.getLogin());
         newClient.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         newClient = userRepository.save(newClient);
+
+//        Order newOrder = new Order(null, OrderStatus.NEW, )
+
         return new UserDTO(newClient.getId(), newClient.getName(), newClient.getSurname(), newClient.getLogin());
     }
 
