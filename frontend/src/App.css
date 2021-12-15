@@ -1,10 +1,33 @@
 .App {
-  /*text-align: center;*/
+  position: relative;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.layout {
+  margin: 30px 177px 50px;
+  padding: 28px;
+  min-height: 500px; /* todo: 200px */
+  box-shadow: 0px 1px 2px rgba(58, 58, 68, 0.24), 0px 2px 4px rgba(90, 91, 106, 0.24);
+  border-radius: 8px;
+}
+
+.app-upper-layer {
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
+.app-help-button {
+  position: absolute;
+  bottom: 28px;
+  right: 16px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

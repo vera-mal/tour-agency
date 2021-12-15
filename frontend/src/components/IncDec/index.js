@@ -8,15 +8,19 @@ const IncDec = ({onValueChange = () => {}, initialValue = 0}) => {
     onValueChange(value)
   }, [value]);
 
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   return (
     <div className='increment-decrement'>
-      <button onClick={() => setValue(value + 1)} className='button plus'><i className="fas fa-plus"></i></button>
+      <button onClick={() => setValue(value + 1)} className='button plus'><i className="fas fa-plus" /></button>
 
       <div className='value'>{value}</div>
 
       <button onClick={() => {
         if (value > 0) setValue(value - 1)
-      }} className='button minus'><i className="fas fa-minus"></i></button>
+      }} className='button minus'><i className="fas fa-minus" /></button>
     </div>
   );
 };

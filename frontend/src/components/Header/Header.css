@@ -19,6 +19,10 @@
   margin-right: 35px;
 }
 
+.group .link {
+  color: #787885;
+}
+
 .header-upper {
   height: 52px;
   color: #787885;
