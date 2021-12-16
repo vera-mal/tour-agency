@@ -16,5 +16,5 @@ public interface UserService {
 
     void deleteFavoriteTour(Long userId, Long tourId);
 
-    TourAddingDTO addTourToCart(TourAddingDTO tour);
+    TourAddingDTO addTourToCart(TourAddingDTO tourDTO, Long userId);
 }

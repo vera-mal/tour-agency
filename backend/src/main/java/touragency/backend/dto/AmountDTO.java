@@ -10,8 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 public class AmountDTO {
-    private BigDecimal full;
-    private BigDecimal seniors;
-    private BigDecimal minors;
-
+    private Integer full;
+    private Integer seniors;
+    private Integer minors;
 }

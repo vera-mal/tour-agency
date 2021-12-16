@@ -14,6 +14,6 @@ public class CartController {
 
     @PostMapping("/users/{userId}/cart")
     public TourAddingDTO addTourToCart(@PathVariable Long userId, @RequestBody TourAddingDTO tour) {
-        return userService.addTourToCart(tour);
+        return userService.addTourToCart(tour, userId);
     }
 }

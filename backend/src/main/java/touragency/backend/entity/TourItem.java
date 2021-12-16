@@ -27,6 +27,9 @@ public class TourItem {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
-    @Column(name = "price", columnDefinition = "DECIMAL(12,2)")
-    private BigDecimal amount;
+    @Column(name = "amount")
+    private Integer amount;
+
+    @Column(name = "sum", columnDefinition = "DECIMAL(12,2)")
+    private BigDecimal sum;
 }
