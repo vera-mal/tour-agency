@@ -1,6 +1,7 @@
 package touragency.backend.service;
 
 import touragency.backend.dto.ShortTourDTO;
+import touragency.backend.dto.TourAddingDTO;
 import touragency.backend.dto.UserDTO;
 import touragency.backend.dto.UserRegistrationDTO;
 
@@ -14,4 +15,6 @@ public interface UserService {
     List<ShortTourDTO> getFavoriteTours(Long userId);
 
     void deleteFavoriteTour(Long userId, Long tourId);
+
+    TourAddingDTO addTourToCart(TourAddingDTO tour);
 }
