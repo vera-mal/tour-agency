@@ -8,6 +8,7 @@ import touragency.backend.service.UserService;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/bellissimo/users")
 @RequiredArgsConstructor
 public class FavoriteController {

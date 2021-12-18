@@ -4,17 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import touragency.backend.dto.ShortTourDTO;
-import touragency.backend.dto.UserDTO;
-import touragency.backend.dto.UserRegistrationDTO;
-import touragency.backend.entity.Client;
-import touragency.backend.entity.Tour;
+import touragency.backend.dto.*;
+import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.exception.TourIsNotFavoriteException;
-import touragency.backend.repository.TourRepository;
-import touragency.backend.repository.UserRepository;
+import touragency.backend.repository.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TourRepository tourRepository;
+    private final OrderRepository orderRepository;
+    private final EventRepository eventRepository;
+    private final DiscountRepository discountRepository;
+    private final TourItemRepository tourItemRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Override
     @Transactional
@@ -34,6 +40,11 @@ public class UserServiceImpl implements UserService {
         newClient.setLogin(userDTO.getLogin());
         newClient.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         newClient = userRepository.save(newClient);
+
+        Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
+                null, newClient, new ArrayList<>());
+        orderRepository.save(newOrder);
+
         return new UserDTO(newClient.getId(), newClient.getName(), newClient.getSurname(), newClient.getLogin());
     }
 
@@ -75,5 +86,37 @@ public class UserServiceImpl implements UserService {
         favorites.remove(tour);
         client.setFavorites(favorites);
         userRepository.save(client);
+    }
+
+    @Override
+    @Transactional
+    public TourAddingDTO addTourToCart(TourAddingDTO tourDTO, Long userId) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        Tour tour = tourRepository.findById(tourDTO.getTourId())
+                .orElseThrow(() -> new EntityNotFoundException(Tour.class.getName(), tourDTO.getTourId()));
+        Event event = eventRepository.findEventByTourAndAndDateBetween(tour, tourDTO.getDate().atStartOfDay(),
+                tourDTO.getDate().atTime(23, 59, 59));
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        AmountDTO amounts = tourDTO.getAmounts();
+        TourItem[] tourItems = new TourItem[3];
+        if (amounts.getFull() > 0) tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
+                amounts.getFull(), tour.getPrice().multiply(BigDecimal.valueOf(amounts.getFull())));
+        if (amounts.getSeniors() > 0) tourItems[1] = new TourItem(null, event, discountRepository.getById(2L),
+                amounts.getSeniors(), tour.getPrice().multiply(BigDecimal.valueOf(0.7)).multiply(BigDecimal.valueOf(amounts.getSeniors())));
+        if (amounts.getMinors() > 0) tourItems[2] = new TourItem(null, event, discountRepository.getById(3L),
+                amounts.getMinors(), tour.getPrice().multiply(BigDecimal.valueOf(0.5)).multiply(BigDecimal.valueOf(amounts.getMinors())));
+
+        for (TourItem tourItem : tourItems) {
+            if (tourItem != null) {
+                tourItem = tourItemRepository.save(tourItem);
+                CartItem cartItem = new CartItem(null, tourItem, null, order);
+                cartItemRepository.save(cartItem);
+                order.setTotalPrice(order.getTotalPrice().add(tourItem.getSum()));
+            }
+        }
+
+        return tourDTO;
     }
 }
