@@ -11,6 +11,7 @@ import Certificates from "./pages/Certificates";
 import Favourites from "./pages/Favourites";
 import Main from "./pages/Main";
 import Tour from "./pages/Tour";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [error, setError] = useState(null);
@@ -35,28 +36,30 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
-        <Header />
-        <Navbar categories={categories} />
-        <div className='layout'>
-          <Routes>
-            <Route path='/' element={<Main />} />
-            <Route path='/category/:alias' element={<Main />} />
-            <Route path='/certificates' element={<Certificates />} />
-            <Route path='/help' element={<HelpPage />} />
-            <Route path='*' element={<></>} />
-            <Route path='/ui-kit' element={<UiKit />} />
-            <Route path='/favourites' element={<Favourites />} />
-            <Route path='/tour/:id' element={<Tour />} />
-          </Routes>
-        </div>
-        <div className='app-upper-layer'>
-          <div className='app-help-button'>
-            <HelpButton />
+      <ScrollToTop>
+        <div className="App">
+          <Header />
+          <Navbar categories={categories} />
+          <div className='layout'>
+            <Routes>
+              <Route path='/' element={<Main />} />
+              <Route path='/category/:alias' element={<Main />} />
+              <Route path='/certificates' element={<Certificates />} />
+              <Route path='/help' element={<HelpPage />} />
+              <Route path='*' element={<></>} />
+              <Route path='/ui-kit' element={<UiKit />} />
+              <Route path='/favourites' element={<Favourites />} />
+              <Route path='/tour/:id' element={<Tour />} />
+            </Routes>
           </div>
+          <div className='app-upper-layer'>
+            <div className='app-help-button'>
+              <HelpButton />
+            </div>
+          </div>
+        <Footer categories={categories}/>
         </div>
-      <Footer categories={categories}/>
-      </div>
+      </ScrollToTop>
     </BrowserRouter>
   );
 }
