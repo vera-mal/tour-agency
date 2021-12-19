@@ -38,8 +38,9 @@ const Main = () => {
       <div className='main-page'>
         {!error && isLoaded &&
           content.map((tour) =>
-            <Link to={'/tour/' + tour.id} key={tour.id}>
+            <Link to={'/tour/' + tour.id}>
               <ProductComponent
+                id={tour.id}
                 type='catalogue'
                 title={tour.name}
                 price={tour.price}

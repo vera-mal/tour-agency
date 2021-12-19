@@ -23,7 +23,7 @@ const ProductComponent = ({
   const [certificateAmount, setCertificateAmount] = useState(0);
 
   return (
-    <div className='product-item'>
+    <div className={'product-item product-item-' + type}>
       <div className={'product-item-content ' + type}>
         {type === 'catalogue' ? (
             <>
