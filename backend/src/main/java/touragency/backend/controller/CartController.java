@@ -17,7 +17,7 @@ public class CartController {
     private final CertificateService certificateService;
     private final CartService cartService;
 
-    @PostMapping("/users/{userId}/cart")
+    @PostMapping(value = "/users/{userId}/cart", consumes = {"application/json"})
     public TourAddingDTO addTourToCart(@PathVariable Long userId, @RequestBody TourAddingDTO tour) {
         return userService.addTourToCart(tour, userId);
     }
