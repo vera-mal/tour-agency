@@ -76,7 +76,7 @@ public class CartServiceImpl implements CartService {
                 cartItems.add(cartItemDTO);
             }
         }
-        return new CartDTO(cartItems, order.getTotalPrice());
+        return new CartDTO(cartItems, order.getCertificateDiscount(), order.getTotalPrice());
     }
 
 }

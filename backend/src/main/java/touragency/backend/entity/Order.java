@@ -32,8 +32,8 @@ public class Order {
     @Column(name = "total_price", columnDefinition = "DECIMAL(12,2)")
     private BigDecimal totalPrice = BigDecimal.valueOf(0);
 
-    @Column(name = "certificate_discount")
-    private Integer certificateDiscount = 0;
+    @Column(name = "certificate_discount", columnDefinition = "DECIMAL(12,2)")
+    private BigDecimal certificateDiscount = BigDecimal.ZERO;
 
     @ManyToOne
     @JoinColumn(name = "client_id")

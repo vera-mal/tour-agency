@@ -6,10 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import touragency.backend.dto.UserRegistrationDTO;
 import touragency.backend.entity.*;
-import touragency.backend.repository.CertificateRepository;
-import touragency.backend.repository.DiscountRepository;
-import touragency.backend.repository.EventRepository;
-import touragency.backend.repository.TourRepository;
+import touragency.backend.repository.*;
 import touragency.backend.service.CategoryService;
 import touragency.backend.service.UserService;
 
@@ -26,7 +23,8 @@ public class BackendApplication {
     @Bean
     public CommandLineRunner demo(CategoryService categoryService, TourRepository tourRepository,
                                   EventRepository eventRepository, CertificateRepository certificateRepository,
-                                  UserService userService, DiscountRepository discountRepository) {
+                                  UserService userService, DiscountRepository discountRepository,
+                                  CertificateItemRepository certificateItemRepository) {
         return (args) -> {
             Category category1 = new Category(null, "boat-trips", "Водные прогулки");
             Category category2 = new Category(null, "walking-tours", "Пешие экскурсии");
@@ -307,6 +305,10 @@ public class BackendApplication {
             certificateRepository.save(certificate1);
             certificateRepository.save(certificate2);
             certificateRepository.save(certificate3);
+
+            certificateItemRepository.save(new CertificateItem(null, "111", certificate1));
+            certificateItemRepository.save(new CertificateItem(null, "222", certificate2));
+            certificateItemRepository.save(new CertificateItem(null, "333", certificate3));
 
             userService.saveUser(new UserRegistrationDTO("Pavel", "Smirnov", "smpas",
                     "1234", "1234"));
