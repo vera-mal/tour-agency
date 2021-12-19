@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './ProductComponent.css'
 import image from '../../mocks/image1.png'
 import IncDec from "../IncDec";
+import IncDecGroup from "../IncDecGroup";
 
 const ProductComponent = ({
     id,
@@ -15,6 +16,8 @@ const ProductComponent = ({
       {category: 'seniors', amount: 0, price: 0},
       {category: 'minors', amount: 0, price: 0}
     ],
+    prices = {full: 1000, seniors: 500, minors: 500},
+    amounts = {full: 1, seniors: 0, minors: 2},
     onDeleteClick = () => {},
     onAddToCartClick = () => {}
   }) => {
@@ -36,14 +39,14 @@ const ProductComponent = ({
             <>
               <div className='product-item-left'>
                 <img src={imageUrl} alt="" className="product-image"/>
-                {type === 'favs' ? (
+                {type === 'favs' || type === 'cart' ? (
                     <button
                       onClick={(event) => onDeleteClick(event, id)}
                       className='product-item-delete-button'
                     >
                       Удалить
                     </button>
-                  ) : type === 'certificate' && !!certificateAmount && (
+                  ) : type === 'certificate' ? !!certificateAmount && (
                     <button
                       onClick={(event) => {
                         onAddToCartClick(event, id, certificateAmount);
@@ -53,18 +56,35 @@ const ProductComponent = ({
                     >
                       Добавить в корзину
                     </button>
-                  )
+                ) : <>
+
+                </>
                 }
               </div>
               <div className='product-item-text'>
                 <div className="product-title">{title}</div>
-                {type === 'certificate' || type === 'history' ?
+                {type === 'certificate' || type === 'history' || type === 'cart' ?
                   <>
-                    {type === 'certificate' &&
+                    {type === 'certificate' ?
                       <div className="product-item-inc-dec">
                         <div className="product-item-label">Количество</div>
                         <IncDec onValueChange={setCertificateAmount} initialValue={certificateAmount}/>
                       </div>
+                      : type === 'history' ?
+                      <>
+                        <div className="product-date product-date-no-indent">{date}</div>
+                        <div className="product-item-inc-dec-group">
+                          <IncDecGroup isReadOnly prices={prices} initialValues={amounts}/>
+                        </div>
+                        <div className="product-price">Итого: &#8381;{price}</div>
+                      </> : type === 'cart' &&
+                        <>
+                          <div className="product-date product-date-no-indent">{date}</div>
+                          <div className="product-item-inc-dec-group">
+                            <IncDecGroup prices={prices} initialValues={amounts} onValueChange={(value) => console.log(value)}/>
+                          </div>
+                          <div className="product-price">Итого: &#8381;{price}</div>
+                        </>
                     }
                     {!!certificateAmount && <div className="product-price">Итого: &#8381;{price * certificateAmount}</div>}
                   </>

@@ -88,6 +88,10 @@
   color: rgba(0, 0, 0, 0.87);
 }
 
+.product-date-no-indent {
+  margin: 0 0 30px auto;
+}
+
 .catalogue .product-price {
   position: static;
 }
@@ -118,6 +122,11 @@
   align-items: center;
   justify-content: flex-end;
   margin-top: 86px;
+}
+
+.product-item-inc-dec-group {
+  width: 70%;
+  margin-left: auto;
 }
 
 .product-item-label {
