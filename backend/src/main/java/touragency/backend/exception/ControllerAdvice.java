@@ -17,8 +17,13 @@ public class ControllerAdvice {
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(PromoCodeNotFoundException.class)
+    public ResponseEntity<Response> handlePromoCodeNotFoundException(PromoCodeNotFoundException e) {
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+/*    @ExceptionHandler(Exception.class)
     public ResponseEntity<Response> handleAnyException(Exception e) {
         return new ResponseEntity<>(new Response("Something went wrong"), HttpStatus.BAD_REQUEST);
-    }
+    }*/
 }

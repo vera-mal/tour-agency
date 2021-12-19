@@ -31,4 +31,9 @@ public class CartController {
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
     }
+
+    @PutMapping("/users/{userId}/cart/promocode/{promoCode}")
+    public CartDTO applyPromoCode(@PathVariable Long userId, @PathVariable Integer promoCode) {
+        return cartService.applyPromoCode(userId, promoCode);
+    }
 }

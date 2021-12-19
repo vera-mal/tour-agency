@@ -8,9 +8,12 @@ import touragency.backend.dto.CartItemDTO;
 import touragency.backend.dto.Item;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
+import touragency.backend.exception.PromoCodeNotFoundException;
+import touragency.backend.repository.CertificateItemRepository;
 import touragency.backend.repository.OrderRepository;
 import touragency.backend.repository.UserRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final CertificateItemRepository certificateItemRepository;
 
     @Override
     public CartDTO getCart(Long userId) {
@@ -79,4 +83,27 @@ public class CartServiceImpl implements CartService {
         return new CartDTO(cartItems, order.getCertificateDiscount(), order.getTotalPrice());
     }
 
+    @Override
+    public CartDTO applyPromoCode(Long userId, Integer promoCode) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        CertificateItem certificateItem = certificateItemRepository.findByCode(promoCode);
+        if (certificateItem == null) {
+            throw new PromoCodeNotFoundException(promoCode);
+        }
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        Certificate certificate = certificateItem.getCertificate();
+        if (certificate.getPrice().compareTo(order.getCertificateDiscount()) > 0) {
+            order.setTotalPrice(BigDecimal.ZERO);
+        } else {
+            order.setTotalPrice(order.getTotalPrice().subtract(certificate.getPrice()));
+        }
+
+        order.setCertificateDiscount(certificate.getPrice());
+        orderRepository.save(order);
+        certificateItemRepository.delete(certificateItem);
+
+        return getCart(userId);
+    }
 }

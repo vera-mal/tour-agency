@@ -36,7 +36,7 @@ public class CertificateServiceImpl implements CertificateService {
 
         Random random = new Random();
         CertificateItem certificateItem = new CertificateItem(null,
-                String.valueOf(random.nextInt(99999999)), certificate);
+                random.nextInt(99999999), certificate);
         certificateItem = certificateItemRepository.save(certificateItem);
 
         cartItemRepository.save(new CartItem(null, null, certificateItem, order));
