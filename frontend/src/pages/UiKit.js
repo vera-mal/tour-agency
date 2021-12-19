@@ -26,6 +26,8 @@ const UiKit = () => {
       <ProductComponent id={0} />
       <ProductComponent id={0} type='favs'/>
       <ProductComponent id={0} type='certificate'/>
+      <ProductComponent id={0} type='history'/>
+      <ProductComponent id={0} type='cart'/>
       <IncDecGroup isReadOnly prices={{full: 1000, seniors: 500, minors: 500}}/>
       <IncDecGroup prices={{full: 1000, seniors: 500, minors: 500}}/>
       <UserInputForm />
