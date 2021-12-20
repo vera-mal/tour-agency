@@ -25,6 +25,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("{userId}/favorite/{tourId}")
+    @CrossOrigin(origins = "http://localhost:8080")
     public void deleteFavoriteTour(@PathVariable Long userId, @PathVariable Long tourId) {
         userService.deleteFavoriteTour(userId, tourId);
     }
