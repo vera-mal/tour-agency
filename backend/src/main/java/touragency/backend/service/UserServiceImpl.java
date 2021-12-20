@@ -101,19 +101,19 @@ public class UserServiceImpl implements UserService {
 
         AmountDTO amounts = tourDTO.getAmounts();
         TourItem[] tourItems = new TourItem[3];
-        if (amounts.getFull() > 0) tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
+        tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
                 amounts.getFull(), tour.getPrice().multiply(BigDecimal.valueOf(amounts.getFull())));
-        if (amounts.getSeniors() > 0) tourItems[1] = new TourItem(null, event, discountRepository.getById(2L),
-                amounts.getSeniors(), tour.getPrice().multiply(BigDecimal.valueOf(0.7)).multiply(BigDecimal.valueOf(amounts.getSeniors())));
-        if (amounts.getMinors() > 0) tourItems[2] = new TourItem(null, event, discountRepository.getById(3L),
-                amounts.getMinors(), tour.getPrice().multiply(BigDecimal.valueOf(0.5)).multiply(BigDecimal.valueOf(amounts.getMinors())));
+        tourItems[1] = new TourItem(null, event, discountRepository.getById(2L),
+                amounts.getSeniors(), tour.getPrice().multiply(BigDecimal.valueOf(0.7)));
+        tourItems[2] = new TourItem(null, event, discountRepository.getById(3L),
+                amounts.getMinors(), tour.getPrice().multiply(BigDecimal.valueOf(0.5)));
 
         for (TourItem tourItem : tourItems) {
             if (tourItem != null) {
                 tourItem = tourItemRepository.save(tourItem);
                 CartItem cartItem = new CartItem(null, tourItem, null, order);
                 cartItemRepository.save(cartItem);
-                order.setTotalPrice(order.getTotalPrice().add(tourItem.getPrice()));
+                order.setTotalPrice(order.getTotalPrice().add(tourItem.getPrice().multiply(BigDecimal.valueOf(tourItem.getAmount()))));
             }
         }
 

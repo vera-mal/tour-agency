@@ -57,13 +57,14 @@ public class CartServiceImpl implements CartService {
                             tourItem.getAmount(), tourItem.getPrice()));
                     cartItemDTO.setItems(items);
 
-                    cartItemDTO.setFullPrice(tourItem.getPrice());
+                    cartItemDTO.setFullPrice(tourItem.getPrice().multiply(BigDecimal.valueOf(tourItem.getAmount())));
                     cartItems.add(cartItemDTO);
                 } else { // не первый элемент с такой датой, надо добавить в список предыдущего
                     items.add(new Item(tourItem.getDiscount().getName(), tourItem.getAmount(), tourItem.getPrice()));
                     CartItemDTO cartItemDTO = cartItems.get(cartItems.size() - 1);
                     cartItemDTO.setItems(items);
-                    cartItemDTO.setFullPrice(cartItemDTO.getFullPrice().add(tourItem.getPrice()));
+                    cartItemDTO.setFullPrice(cartItemDTO.getFullPrice()
+                            .add(tourItem.getPrice().multiply(BigDecimal.valueOf(tourItem.getAmount()))));
                     cartItems.set(cartItems.size() - 1, cartItems.get(cartItems.size() - 1));
                 }
 
