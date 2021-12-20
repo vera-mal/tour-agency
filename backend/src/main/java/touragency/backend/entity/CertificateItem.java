@@ -22,6 +22,9 @@ public class CertificateItem {
     @Column(name = "code")
     private Integer code;
 
+    @Column(name = "used")
+    private Boolean used;
+
     @ManyToOne
     @JoinColumn(name = "certificate_id")
     private Certificate certificate;

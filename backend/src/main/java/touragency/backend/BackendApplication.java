@@ -306,9 +306,9 @@ public class BackendApplication {
             certificateRepository.save(certificate2);
             certificateRepository.save(certificate3);
 
-            certificateItemRepository.save(new CertificateItem(null, 111, certificate1));
-            certificateItemRepository.save(new CertificateItem(null, 222, certificate2));
-            certificateItemRepository.save(new CertificateItem(null, 333, certificate3));
+            certificateItemRepository.save(new CertificateItem(null, 111, false, certificate1));
+            certificateItemRepository.save(new CertificateItem(null, 222, false, certificate2));
+            certificateItemRepository.save(new CertificateItem(null, 333, false, certificate3));
 
             userService.saveUser(new UserRegistrationDTO("Pavel", "Smirnov", "smpas",
                     "1234", "1234"));
