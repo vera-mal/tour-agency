@@ -20,7 +20,7 @@ public class CertificateItem {
     private Long id;
 
     @Column(name = "code")
-    private String code;
+    private Integer code;
 
     @ManyToOne
     @JoinColumn(name = "certificate_id")

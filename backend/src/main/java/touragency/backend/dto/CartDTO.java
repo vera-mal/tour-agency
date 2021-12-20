@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CartDTO {
     private List<CartItemDTO> cartItems;
+    private BigDecimal certificateDiscount;
     private BigDecimal totalPrice;
 }
 

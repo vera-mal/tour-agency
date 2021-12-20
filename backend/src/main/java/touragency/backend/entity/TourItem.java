@@ -30,6 +30,6 @@ public class TourItem {
     @Column(name = "amount")
     private Integer amount;
 
-    @Column(name = "sum", columnDefinition = "DECIMAL(12,2)")
-    private BigDecimal sum;
+    @Column(name = "price", columnDefinition = "DECIMAL(12,2)")
+    private BigDecimal price;
 }

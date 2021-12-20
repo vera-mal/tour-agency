@@ -17,18 +17,25 @@ public class CartController {
     private final CertificateService certificateService;
     private final CartService cartService;
 
-    @PostMapping("/users/{userId}/cart")
+    @PostMapping(value = "/users/{userId}/cart", consumes = {"application/json"})
     public TourAddingDTO addTourToCart(@PathVariable Long userId, @RequestBody TourAddingDTO tour) {
         return userService.addTourToCart(tour, userId);
     }
 
-    @PostMapping("/users/{userId}/cart/certificate/{certificateId}")
-    public void addCertificateToCart(@PathVariable Long userId, @PathVariable Long certificateId) {
-        certificateService.addCertificateToCart(userId, certificateId);
+    @PostMapping("/users/{userId}/cart/certificate/{certificateId}/{quantity}")
+    public void addCertificateToCart(@PathVariable Long userId,
+                                     @PathVariable Long certificateId,
+                                     @PathVariable Integer quantity) {
+        certificateService.addCertificateToCart(userId, certificateId, quantity);
     }
 
     @GetMapping("/users/{userId}/cart")
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
+    }
+
+    @PutMapping("/users/{userId}/cart/promocode/{promoCode}")
+    public CartDTO applyPromoCode(@PathVariable Long userId, @PathVariable Integer promoCode) {
+        return cartService.applyPromoCode(userId, promoCode);
     }
 }

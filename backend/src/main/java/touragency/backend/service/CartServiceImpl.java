@@ -8,9 +8,12 @@ import touragency.backend.dto.CartItemDTO;
 import touragency.backend.dto.Item;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
+import touragency.backend.exception.PromoCodeNotFoundException;
+import touragency.backend.repository.CertificateItemRepository;
 import touragency.backend.repository.OrderRepository;
 import touragency.backend.repository.UserRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final CertificateItemRepository certificateItemRepository;
 
     @Override
     public CartDTO getCart(Long userId) {
@@ -50,16 +54,17 @@ public class CartServiceImpl implements CartService {
 
                     items = new ArrayList<>();
                     items.add(new Item(tourItem.getDiscount().getName(),
-                            tourItem.getAmount(), tourItem.getSum()));
+                            tourItem.getAmount(), tourItem.getPrice()));
                     cartItemDTO.setItems(items);
 
-                    cartItemDTO.setFullPrice(tourItem.getSum());
+                    cartItemDTO.setFullPrice(tourItem.getPrice().multiply(BigDecimal.valueOf(tourItem.getAmount())));
                     cartItems.add(cartItemDTO);
                 } else { // не первый элемент с такой датой, надо добавить в список предыдущего
-                    items.add(new Item(tourItem.getDiscount().getName(), tourItem.getAmount(), tourItem.getSum()));
+                    items.add(new Item(tourItem.getDiscount().getName(), tourItem.getAmount(), tourItem.getPrice()));
                     CartItemDTO cartItemDTO = cartItems.get(cartItems.size() - 1);
                     cartItemDTO.setItems(items);
-                    cartItemDTO.setFullPrice(cartItemDTO.getFullPrice().add(tourItem.getSum()));
+                    cartItemDTO.setFullPrice(cartItemDTO.getFullPrice()
+                            .add(tourItem.getPrice().multiply(BigDecimal.valueOf(tourItem.getAmount()))));
                     cartItems.set(cartItems.size() - 1, cartItems.get(cartItems.size() - 1));
                 }
 
@@ -76,7 +81,31 @@ public class CartServiceImpl implements CartService {
                 cartItems.add(cartItemDTO);
             }
         }
-        return new CartDTO(cartItems, order.getTotalPrice());
+        return new CartDTO(cartItems, order.getCertificateDiscount(), order.getTotalPrice());
     }
 
+    @Override
+    @Transactional
+    public CartDTO applyPromoCode(Long userId, Integer promoCode) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        CertificateItem certificateItem = certificateItemRepository.findByCode(promoCode);
+        if (certificateItem == null) {
+            throw new PromoCodeNotFoundException(promoCode);
+        }
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        Certificate certificate = certificateItem.getCertificate();
+        if (certificate.getPrice().compareTo(order.getTotalPrice()) > 0) {
+            order.setTotalPrice(BigDecimal.ZERO);
+        } else {
+            order.setTotalPrice(order.getTotalPrice().subtract(certificate.getPrice()));
+        }
+
+        order.setCertificateDiscount(certificate.getPrice());
+        orderRepository.save(order);
+        certificateItemRepository.delete(certificateItem);
+
+        return getCart(userId);
+    }
 }
