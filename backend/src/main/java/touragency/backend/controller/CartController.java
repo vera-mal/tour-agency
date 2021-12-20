@@ -3,6 +3,7 @@ package touragency.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import touragency.backend.dto.CartDTO;
+import touragency.backend.dto.PromocodeDTO;
 import touragency.backend.dto.TourAddingDTO;
 import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
@@ -37,5 +38,10 @@ public class CartController {
     @PutMapping("/users/{userId}/cart/promocode/{promoCode}")
     public CartDTO applyPromoCode(@PathVariable Long userId, @PathVariable Integer promoCode) {
         return cartService.applyPromoCode(userId, promoCode);
+    }
+
+    @PostMapping("/users/{userId}/cart/submit")
+    public PromocodeDTO submitOrder(@PathVariable Long userId) {
+        return cartService.submitOrder(userId);
     }
 }

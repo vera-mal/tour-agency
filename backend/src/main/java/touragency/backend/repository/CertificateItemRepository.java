@@ -6,5 +6,5 @@ import touragency.backend.entity.CertificateItem;
 
 @Repository
 public interface CertificateItemRepository extends JpaRepository<CertificateItem, Long> {
-    CertificateItem findByCode(Integer code);
+    CertificateItem findByCodeAndUsedFalse(Integer code);
 }

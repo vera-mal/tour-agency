@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import touragency.backend.dto.CartDTO;
 import touragency.backend.dto.CartItemDTO;
 import touragency.backend.dto.Item;
+import touragency.backend.dto.PromocodeDTO;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.exception.PromoCodeNotFoundException;
@@ -14,6 +15,7 @@ import touragency.backend.repository.OrderRepository;
 import touragency.backend.repository.UserRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +91,7 @@ public class CartServiceImpl implements CartService {
     public CartDTO applyPromoCode(Long userId, Integer promoCode) {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
-        CertificateItem certificateItem = certificateItemRepository.findByCode(promoCode);
+        CertificateItem certificateItem = certificateItemRepository.findByCodeAndUsedFalse(promoCode);
         if (certificateItem == null) {
             throw new PromoCodeNotFoundException(promoCode);
         }
@@ -104,8 +106,33 @@ public class CartServiceImpl implements CartService {
 
         order.setCertificateDiscount(certificate.getPrice());
         orderRepository.save(order);
-        certificateItemRepository.delete(certificateItem);
 
+        certificateItem.setUsed(true);
+        certificateItemRepository.save(certificateItem);
         return getCart(userId);
+    }
+
+    @Override
+    @Transactional
+    public PromocodeDTO submitOrder(Long userId) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        order.setStatus(OrderStatus.PAID);
+        order.setDate(LocalDateTime.now());
+        orderRepository.save(order);
+
+        Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
+                null, client, new ArrayList<>());
+        orderRepository.save(newOrder);
+
+        List<Integer> promocodes = new ArrayList<>();
+        for (CartItem cartItem : order.getCartItems()) {
+            if (cartItem.getCertificateItem() != null) {
+                promocodes.add(cartItem.getCertificateItem().getCode());
+            }
+        }
+        return new PromocodeDTO(promocodes);
     }
 }

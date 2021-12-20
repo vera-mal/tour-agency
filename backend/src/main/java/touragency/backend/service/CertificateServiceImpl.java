@@ -37,7 +37,7 @@ public class CertificateServiceImpl implements CertificateService {
         Random random = new Random();
         for (int i = 0; i < quantity; i++) {
             CertificateItem certificateItem = new CertificateItem(null,
-                    random.nextInt(99999999), certificate);
+                    random.nextInt(99999999), false, certificate);
             certificateItem = certificateItemRepository.save(certificateItem);
             cartItemRepository.save(new CartItem(null, null, certificateItem, order));
             order.setTotalPrice(order.getTotalPrice().add(certificate.getPrice()));
