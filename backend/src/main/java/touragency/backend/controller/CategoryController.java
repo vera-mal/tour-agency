@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bellissimo/categories")
 public class CategoryController {
     private final CategoryService categoryService;

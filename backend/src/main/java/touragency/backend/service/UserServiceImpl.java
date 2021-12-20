@@ -13,9 +13,7 @@ import touragency.backend.repository.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -118,5 +116,17 @@ public class UserServiceImpl implements UserService {
         }
 
         return tourDTO;
+    }
+
+    @Override
+    public List<OrderDTO> getHistory(Long userId) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        List<Order> orders = orderRepository.findAllByClientAndStatus(client, OrderStatus.PAID);
+        return orders.stream().map(this::convertOrderToDTO).collect(Collectors.toList());
+    }
+
+    public OrderDTO convertOrderToDTO(Order order) {
+        return new OrderDTO(order.getId(), order.getDate(), CartServiceImpl.getCartFromOrder(order));
     }
 }

@@ -32,7 +32,60 @@ public class CartServiceImpl implements CartService {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+        return getCartFromOrder(order);
+    }
 
+    @Override
+    @Transactional
+    public CartDTO applyPromoCode(Long userId, Integer promoCode) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        CertificateItem certificateItem = certificateItemRepository.findByCodeAndUsedFalse(promoCode);
+        if (certificateItem == null) {
+            throw new PromoCodeNotFoundException(promoCode);
+        }
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        Certificate certificate = certificateItem.getCertificate();
+        if (certificate.getPrice().compareTo(order.getTotalPrice()) > 0) {
+            order.setTotalPrice(BigDecimal.ZERO);
+        } else {
+            order.setTotalPrice(order.getTotalPrice().subtract(certificate.getPrice()));
+        }
+
+        order.setCertificateDiscount(certificate.getPrice());
+        orderRepository.save(order);
+
+        certificateItem.setUsed(true);
+        certificateItemRepository.save(certificateItem);
+        return getCart(userId);
+    }
+
+    @Override
+    @Transactional
+    public PromocodeDTO submitOrder(Long userId) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        order.setStatus(OrderStatus.PAID);
+        order.setDate(LocalDateTime.now());
+        orderRepository.save(order);
+
+        Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
+                null, client, new ArrayList<>());
+        orderRepository.save(newOrder);
+
+        List<Integer> promocodes = new ArrayList<>();
+        for (CartItem cartItem : order.getCartItems()) {
+            if (cartItem.getCertificateItem() != null) {
+                promocodes.add(cartItem.getCertificateItem().getCode());
+            }
+        }
+        return new PromocodeDTO(promocodes);
+    }
+
+    public static CartDTO getCartFromOrder(Order order) {
         List<CartItemDTO> cartItems = new ArrayList<>();
 
         Event previousEvent = new Event();
@@ -84,55 +137,5 @@ public class CartServiceImpl implements CartService {
             }
         }
         return new CartDTO(cartItems, order.getCertificateDiscount(), order.getTotalPrice());
-    }
-
-    @Override
-    @Transactional
-    public CartDTO applyPromoCode(Long userId, Integer promoCode) {
-        Client client = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
-        CertificateItem certificateItem = certificateItemRepository.findByCodeAndUsedFalse(promoCode);
-        if (certificateItem == null) {
-            throw new PromoCodeNotFoundException(promoCode);
-        }
-        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
-
-        Certificate certificate = certificateItem.getCertificate();
-        if (certificate.getPrice().compareTo(order.getTotalPrice()) > 0) {
-            order.setTotalPrice(BigDecimal.ZERO);
-        } else {
-            order.setTotalPrice(order.getTotalPrice().subtract(certificate.getPrice()));
-        }
-
-        order.setCertificateDiscount(certificate.getPrice());
-        orderRepository.save(order);
-
-        certificateItem.setUsed(true);
-        certificateItemRepository.save(certificateItem);
-        return getCart(userId);
-    }
-
-    @Override
-    @Transactional
-    public PromocodeDTO submitOrder(Long userId) {
-        Client client = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
-        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
-
-        order.setStatus(OrderStatus.PAID);
-        order.setDate(LocalDateTime.now());
-        orderRepository.save(order);
-
-        Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
-                null, client, new ArrayList<>());
-        orderRepository.save(newOrder);
-
-        List<Integer> promocodes = new ArrayList<>();
-        for (CartItem cartItem : order.getCartItems()) {
-            if (cartItem.getCertificateItem() != null) {
-                promocodes.add(cartItem.getCertificateItem().getCode());
-            }
-        }
-        return new PromocodeDTO(promocodes);
     }
 }

@@ -1,9 +1,6 @@
 package touragency.backend.service;
 
-import touragency.backend.dto.ShortTourDTO;
-import touragency.backend.dto.TourAddingDTO;
-import touragency.backend.dto.UserDTO;
-import touragency.backend.dto.UserRegistrationDTO;
+import touragency.backend.dto.*;
 
 import java.util.List;
 
@@ -17,4 +14,6 @@ public interface UserService {
     void deleteFavoriteTour(Long userId, Long tourId);
 
     TourAddingDTO addTourToCart(TourAddingDTO tourDTO, Long userId);
+
+    List<OrderDTO> getHistory(Long userId);
 }
