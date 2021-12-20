@@ -22,9 +22,11 @@ public class CartController {
         return userService.addTourToCart(tour, userId);
     }
 
-    @PostMapping("/users/{userId}/cart/certificate/{certificateId}")
-    public void addCertificateToCart(@PathVariable Long userId, @PathVariable Long certificateId) {
-        certificateService.addCertificateToCart(userId, certificateId);
+    @PostMapping("/users/{userId}/cart/certificate/{certificateId}/{quantity}")
+    public void addCertificateToCart(@PathVariable Long userId,
+                                     @PathVariable Long certificateId,
+                                     @PathVariable Integer quantity) {
+        certificateService.addCertificateToCart(userId, certificateId, quantity);
     }
 
     @GetMapping("/users/{userId}/cart")

@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
                 tourItem = tourItemRepository.save(tourItem);
                 CartItem cartItem = new CartItem(null, tourItem, null, order);
                 cartItemRepository.save(cartItem);
-                order.setTotalPrice(order.getTotalPrice().add(tourItem.getSum()));
+                order.setTotalPrice(order.getTotalPrice().add(tourItem.getPrice()));
             }
         }
 

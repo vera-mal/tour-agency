@@ -7,5 +7,5 @@ import java.util.List;
 public interface CertificateService {
     List<Certificate> getAllCertificates();
 
-    void addCertificateToCart(Long userId, Long certificateId);
+    void addCertificateToCart(Long userId, Long certificateId, Integer quantity);
 }

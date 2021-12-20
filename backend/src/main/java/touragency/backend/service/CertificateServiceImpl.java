@@ -27,7 +27,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Transactional
-    public void addCertificateToCart(Long userId, Long certificateId) {
+    public void addCertificateToCart(Long userId, Long certificateId, Integer quantity) {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
         Certificate certificate = certificateRepository.findById(certificateId)
@@ -35,13 +35,13 @@ public class CertificateServiceImpl implements CertificateService {
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
 
         Random random = new Random();
-        CertificateItem certificateItem = new CertificateItem(null,
-                random.nextInt(99999999), certificate);
-        certificateItem = certificateItemRepository.save(certificateItem);
-
-        cartItemRepository.save(new CartItem(null, null, certificateItem, order));
-
-        order.setTotalPrice(order.getTotalPrice().add(certificate.getPrice()));
-        orderRepository.save(order);
+        for (int i = 0; i < quantity; i++) {
+            CertificateItem certificateItem = new CertificateItem(null,
+                    random.nextInt(99999999), certificate);
+            certificateItem = certificateItemRepository.save(certificateItem);
+            cartItemRepository.save(new CartItem(null, null, certificateItem, order));
+            order.setTotalPrice(order.getTotalPrice().add(certificate.getPrice()));
+            orderRepository.save(order);
+        }
     }
 }
