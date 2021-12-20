@@ -10,8 +10,8 @@ import touragency.backend.service.CertificateService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@CrossOrigin
 @RequestMapping("bellissimo/certificates")
 @RequiredArgsConstructor
 public class CertificateController {

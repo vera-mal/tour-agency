@@ -9,9 +9,9 @@ import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
 import touragency.backend.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bellissimo")
 public class CartController {
     private final UserService userService;

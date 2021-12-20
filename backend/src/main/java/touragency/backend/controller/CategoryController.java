@@ -10,6 +10,7 @@ import touragency.backend.service.CategoryService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/bellissimo/categories")
