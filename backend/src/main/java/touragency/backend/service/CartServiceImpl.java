@@ -85,6 +85,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public CartDTO applyPromoCode(Long userId, Integer promoCode) {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
@@ -95,7 +96,7 @@ public class CartServiceImpl implements CartService {
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
 
         Certificate certificate = certificateItem.getCertificate();
-        if (certificate.getPrice().compareTo(order.getCertificateDiscount()) > 0) {
+        if (certificate.getPrice().compareTo(order.getTotalPrice()) > 0) {
             order.setTotalPrice(BigDecimal.ZERO);
         } else {
             order.setTotalPrice(order.getTotalPrice().subtract(certificate.getPrice()));
