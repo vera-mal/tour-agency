@@ -12,6 +12,8 @@ const Tour = () => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [values, setValues] = useState(null);
+  const [selectedDate, setDate] = useState('');
 
   useEffect(() => {
     setIsLoaded(false);
@@ -22,6 +24,7 @@ const Tour = () => {
       .then(res => res.json())
       .then((result) => {
           setContent(result);
+          setValues(null);
           setIsLoaded(true);
         },
         (error) => {
@@ -47,10 +50,40 @@ const Tour = () => {
           // setIsLoaded(true);
         },
         (error) => {
-          console.log(1, error);
+          console.log(2, error);
           fetchData();
           // setIsLoaded(true);
           // setError(error);
+        })
+  };
+
+  const handleValueChange = (value) => {
+    setValues(value);
+  }
+
+  const handleDate = (event) => {
+    setDate(event.target.value)
+  }
+
+  const handleAddToCart = () => {
+    // setIsLoaded(false);
+    const requestOptions = {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ tourId: id, date: selectedDate, amounts: values })
+    };
+
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart', requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+          console.log(1, result);
+          setValues(null);
+          setDate('');
+          // fetchData();
+          // setIsLoaded(true);
+        },
+        (error) => {
+          console.log(2, error);
         })
   };
 
@@ -75,18 +108,32 @@ const Tour = () => {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Time"
+                      value={selectedDate}
+                      onChange={handleDate}
                     >
-                      {content.dates.map((date) => <MenuItem>{date}</MenuItem>)}
+                      {content.dates.map((date) => <MenuItem value={date}>{date}</MenuItem>)}
                     </Select>
                   </FormControl>  
                 </div>   
                 <div className='tour-time'>{content.time}</div>
               </div>
               <div className='tour-inc-dec'>
-                <IncDecGroup prices={content.prices}/>
+                <IncDecGroup prices={content.prices} onValueChange={handleValueChange}/>
               </div>
+              {!!values && Object.values(values).some((elem) => elem > 0) &&
+                <div className='tour-sum'>
+                  Итого: {Object.values(values).reduce((accumulator, currentValue, index) => {
+                  return accumulator + currentValue * Object.values(content.prices)[index];
+                }, 0)}
+                </div>
+              }
+              {selectedDate && !!values && Object.values(values).some((elem) => elem > 0) &&
+                <div className='tour-add-button'>
+                  <button onClick={handleAddToCart}><i className="fas fa-shopping-cart"/>Добавить в корзину</button>
+                </div>}
+            </div><div className='tour-favourite-button'>
+              <FavouritesButton isLikedDefault={content.isLiked} onSelect={handleLike}/>
             </div>
-            <div className='tour-favourite-button'><FavouritesButton isLikedDefault={content.isLiked} onSelect={handleLike}/></div>
           </div>
         }
       </div>

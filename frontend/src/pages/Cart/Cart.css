@@ -1,0 +1,25 @@
+.cart-page-promocode {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.cart-page-promocode-input {
+    margin: 0;
+}
+
+.cart-page-promocode-button {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 16px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.0075em;
+    border-radius: 99px;
+
+    color: #231F20;
+    border-style: none;
+    cursor: pointer;
+}

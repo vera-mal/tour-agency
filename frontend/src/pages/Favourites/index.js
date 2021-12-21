@@ -25,31 +25,25 @@ const Favourites = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData])
+  }, [fetchData]);
 
   const handleDelete = (id) => {
-    setIsLoaded(false);
-    let formData = new FormData();
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
 
     const requestOptions = {
       method: 'DELETE',
-      // mode: 'no-cors',
-      // formData
       headers: headers
     };
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite/' + id, requestOptions)
       .then(response => response.json())
       .then((result) => {
-          console.log(1, result);
-          // fetchData();
-          setIsLoaded(true);
+          setContent(content.filter(tour => tour.id !== id));
+          fetchData();
         },
         (error) => {
-          console.log(1, error);
-          // fetchData();
-          setIsLoaded(true);
+          console.log(error);
+          fetchData();
           // setError(error);
         })
   };

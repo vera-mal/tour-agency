@@ -26,6 +26,19 @@ const Certificates = () => {
     fetchData();
   }, [fetchData])
 
+  const handleAddToCart = (event, id) => {
+    const requestOptions = {
+      method: 'POST',
+    };
+
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart/certificate/' + id + '/1', requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        },
+        (error) => {
+        })
+  };
+
   return (
     <>
       <PageHeading>Сертификаты</PageHeading>
@@ -41,9 +54,7 @@ const Certificates = () => {
               title={'Сертификат на сумму '+ certificate.price + ' рублей'}
               price={certificate.price}
               imageUrl={certificate.imagePath}
-              onAddToCartClick={(event, id, certificateAmount) => {
-                console.log('Добавить в корзину сертификат с id ' + id + ', ' + certificateAmount + ' шт.')
-              }}
+              onAddToCartClick={handleAddToCart}
             />
           )
         }

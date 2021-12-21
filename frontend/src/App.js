@@ -11,6 +11,7 @@ import Certificates from "./pages/Certificates";
 import Favourites from "./pages/Favourites";
 import Main from "./pages/Main";
 import Tour from "./pages/Tour";
+import Cart from "./pages/Cart";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
               <Route path='*' element={<></>} />
               <Route path='/ui-kit' element={<UiKit />} />
               <Route path='/favourites' element={<Favourites />} />
+              <Route path='/cart' element={<Cart />} />
               <Route path='/tour/:id' element={<Tour />} />
             </Routes>
           </div>
