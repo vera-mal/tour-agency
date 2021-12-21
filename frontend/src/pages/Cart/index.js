@@ -44,7 +44,6 @@ const Cart = (props) => {
           fetchData();
         },
         (error) => {
-          console.log(error);
           fetchData();
         })
   };
@@ -74,6 +73,7 @@ const Cart = (props) => {
       .then(response => response.json())
       .then((result) => {
         console.log('code', result)
+        setContent(null)
         },
         (error) => {
         })
@@ -99,7 +99,7 @@ const Cart = (props) => {
       <Spinner isVisible={!isLoaded}/>
 
       <div className='favourites-page'>
-        {isLoaded && !error && (content.cartItems.length !== 0 ?
+        {isLoaded && !error && (!!content && content.cartItems.length !== 0 ?
           <>
             {content.cartItems.map((item) =>
               item.type === 'tour' ?

@@ -45,15 +45,10 @@ const Tour = () => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite/' + id, requestOptions)
       .then(response => response.json())
       .then((result) => {
-          console.log(1, result);
           fetchData();
-          // setIsLoaded(true);
         },
         (error) => {
-          console.log(2, error);
           fetchData();
-          // setIsLoaded(true);
-          // setError(error);
         })
   };
 
