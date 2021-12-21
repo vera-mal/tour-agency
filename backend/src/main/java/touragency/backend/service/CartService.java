@@ -10,4 +10,6 @@ public interface CartService {
     CartDTO applyPromoCode(Long userId, Integer promoCode);
 
     PromocodeDTO submitOrder(Long userId);
+
+    void deleteTourFromCart(Long userId, Long cartItemId);
 }

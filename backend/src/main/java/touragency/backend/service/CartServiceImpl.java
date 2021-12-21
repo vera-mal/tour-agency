@@ -10,6 +10,7 @@ import touragency.backend.dto.PromocodeDTO;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.exception.PromoCodeNotFoundException;
+import touragency.backend.repository.CartItemRepository;
 import touragency.backend.repository.CertificateItemRepository;
 import touragency.backend.repository.OrderRepository;
 import touragency.backend.repository.UserRepository;
@@ -26,6 +27,7 @@ public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final CertificateItemRepository certificateItemRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Override
     public CartDTO getCart(Long userId) {
@@ -83,6 +85,31 @@ public class CartServiceImpl implements CartService {
             }
         }
         return new PromocodeDTO(promocodes);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTourFromCart(Long userId, Long cartItemId) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new EntityNotFoundException(CartItem.class.getName(), cartItemId));
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+
+        if (cartItem.getCertificateItem() != null) {
+            cartItemRepository.delete(cartItem);
+            order.setTotalPrice(order.getTotalPrice().subtract(cartItem.getCertificateItem().getCertificate().getPrice()));
+        } else {
+            Event event = cartItem.getTourItem().getEvent();
+            for (CartItem item : order.getCartItems()) {
+                if (item.getTourItem() != null && item.getTourItem().getEvent().getId().equals(event.getId())) {
+                    cartItemRepository.delete(item);
+                    order.setTotalPrice(order.getTotalPrice().subtract(item.getTourItem().getPrice()
+                            .multiply(BigDecimal.valueOf(item.getTourItem().getAmount()))));
+                }
+            }
+        }
+        orderRepository.save(order);
     }
 
     public static CartDTO getCartFromOrder(Order order) {

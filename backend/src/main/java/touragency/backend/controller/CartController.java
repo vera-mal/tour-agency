@@ -44,4 +44,9 @@ public class CartController {
     public PromocodeDTO submitOrder(@PathVariable Long userId) {
         return cartService.submitOrder(userId);
     }
+
+    @DeleteMapping("/users/{userId}/cart/{cartItemId}")
+    public void deleteTourFromCart(@PathVariable Long userId, @PathVariable Long cartItemId) {
+        cartService.deleteTourFromCart(userId, cartItemId);
+    }
 }
