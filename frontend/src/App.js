@@ -13,6 +13,7 @@ import Main from "./pages/Main";
 import Tour from "./pages/Tour";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./components/ScrollToTop";
+import History from "./pages/History";
 
 function App() {
   const [error, setError] = useState(null);
@@ -51,6 +52,7 @@ function App() {
               <Route path='/ui-kit' element={<UiKit />} />
               <Route path='/favourites' element={<Favourites />} />
               <Route path='/cart' element={<Cart />} />
+              <Route path='/history' element={<History />} />
               <Route path='/tour/:id' element={<Tour />} />
             </Routes>
           </div>
