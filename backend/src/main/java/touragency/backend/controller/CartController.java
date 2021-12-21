@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import touragency.backend.dto.CartDTO;
 import touragency.backend.dto.PromocodeDTO;
+import touragency.backend.dto.TicketsQuantityDTO;
 import touragency.backend.dto.TourAddingDTO;
 import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
@@ -48,5 +49,10 @@ public class CartController {
     @DeleteMapping("/users/{userId}/cart/{cartItemId}")
     public void deleteTourFromCart(@PathVariable Long userId, @PathVariable Long cartItemId) {
         cartService.deleteTourFromCart(userId, cartItemId);
+    }
+
+    @PutMapping("/users/{userId}/cart")
+    public void changeTicketQuantity(@PathVariable Long userId, @RequestBody TicketsQuantityDTO quantity) {
+        cartService.changeTicketQuantity(userId, quantity);
     }
 }
