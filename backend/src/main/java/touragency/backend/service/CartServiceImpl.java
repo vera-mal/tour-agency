@@ -60,7 +60,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public PromocodeDTO submitOrder(Long userId) {
+    public List<PromocodeDTO> submitOrder(Long userId) {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
@@ -73,13 +73,15 @@ public class CartServiceImpl implements CartService {
                 null, client, new ArrayList<>());
         orderRepository.save(newOrder);
 
-        List<Integer> promocodes = new ArrayList<>();
+        List<PromocodeDTO> promocodes = new ArrayList<>();
         for (CartItem cartItem : order.getCartItems()) {
             if (cartItem.getCertificateItem() != null) {
-                promocodes.add(cartItem.getCertificateItem().getCode());
+                PromocodeDTO promocode = new PromocodeDTO(cartItem.getCertificateItem().getCertificate().getPrice(),
+                        cartItem.getCertificateItem().getCode());
+                promocodes.add(promocode);
             }
         }
-        return new PromocodeDTO(promocodes);
+        return promocodes;
     }
 
     @Override

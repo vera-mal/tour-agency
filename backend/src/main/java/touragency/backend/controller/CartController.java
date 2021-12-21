@@ -10,6 +10,8 @@ import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
 import touragency.backend.service.UserService;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +44,7 @@ public class CartController {
     }
 
     @PostMapping("/users/{userId}/cart/submit")
-    public PromocodeDTO submitOrder(@PathVariable Long userId) {
+    public List<PromocodeDTO> submitOrder(@PathVariable Long userId) {
         return cartService.submitOrder(userId);
     }
 
