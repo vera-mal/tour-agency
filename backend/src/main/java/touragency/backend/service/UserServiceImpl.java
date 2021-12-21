@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
         AmountDTO amounts = tourDTO.getAmounts();
         TourItem[] tourItems = new TourItem[3];
         tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
-                amounts.getFull(), tour.getPrice().multiply(BigDecimal.valueOf(amounts.getFull())));
+                amounts.getFull(), tour.getPrice());
         tourItems[1] = new TourItem(null, event, discountRepository.getById(2L),
                 amounts.getSeniors(), tour.getPrice().multiply(BigDecimal.valueOf(0.7)));
         tourItems[2] = new TourItem(null, event, discountRepository.getById(3L),
