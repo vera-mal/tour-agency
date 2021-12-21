@@ -3,17 +3,11 @@ package touragency.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import touragency.backend.dto.CartDTO;
-import touragency.backend.dto.CartItemDTO;
-import touragency.backend.dto.Item;
-import touragency.backend.dto.PromocodeDTO;
+import touragency.backend.dto.*;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.exception.PromoCodeNotFoundException;
-import touragency.backend.repository.CartItemRepository;
-import touragency.backend.repository.CertificateItemRepository;
-import touragency.backend.repository.OrderRepository;
-import touragency.backend.repository.UserRepository;
+import touragency.backend.repository.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,6 +22,7 @@ public class CartServiceImpl implements CartService {
     private final OrderRepository orderRepository;
     private final CertificateItemRepository certificateItemRepository;
     private final CartItemRepository cartItemRepository;
+    private final TourItemRepository tourItemRepository;
 
     @Override
     public CartDTO getCart(Long userId) {
@@ -104,12 +99,38 @@ public class CartServiceImpl implements CartService {
             for (CartItem item : order.getCartItems()) {
                 if (item.getTourItem() != null && item.getTourItem().getEvent().getId().equals(event.getId())) {
                     cartItemRepository.delete(item);
+                    tourItemRepository.delete(item.getTourItem());
                     order.setTotalPrice(order.getTotalPrice().subtract(item.getTourItem().getPrice()
                             .multiply(BigDecimal.valueOf(item.getTourItem().getAmount()))));
                 }
             }
         }
         orderRepository.save(order);
+    }
+
+    @Override
+    @Transactional
+    public void changeTicketQuantity(Long userId, TicketsQuantityDTO quantity) {
+        Client client = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
+        Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
+        CartItem cartItem = cartItemRepository.findById(quantity.getCartItemId())
+                .orElseThrow(() -> new EntityNotFoundException(CartItem.class.getName(), quantity.getCartItemId()));
+        Event event = cartItem.getTourItem().getEvent();
+
+        for (CartItem item : order.getCartItems()) {
+            TourItem tourItem = item.getTourItem();
+            if (tourItem != null && tourItem.getDiscount().getName().equals(quantity.getTicketCategory())
+                    && tourItem.getEvent().getId().equals(event.getId())) {
+                BigDecimal sumDifference = tourItem.getPrice()
+                        .multiply(BigDecimal.valueOf(tourItem.getAmount() - quantity.getQuantity()));
+                tourItem.setAmount(quantity.getQuantity());
+                tourItemRepository.save(tourItem);
+                order.setTotalPrice(order.getTotalPrice().subtract(sumDifference));
+                orderRepository.save(order);
+                break;
+            }
+        }
     }
 
     public static CartDTO getCartFromOrder(Order order) {
