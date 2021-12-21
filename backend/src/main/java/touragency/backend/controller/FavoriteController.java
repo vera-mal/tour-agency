@@ -7,8 +7,8 @@ import touragency.backend.service.UserService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@CrossOrigin
 @RequestMapping("/bellissimo/users")
 @RequiredArgsConstructor
 public class FavoriteController {

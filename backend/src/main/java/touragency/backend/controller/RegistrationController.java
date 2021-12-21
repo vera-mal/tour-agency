@@ -6,8 +6,8 @@ import touragency.backend.dto.UserDTO;
 import touragency.backend.dto.UserRegistrationDTO;
 import touragency.backend.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@CrossOrigin
 @RequestMapping("/bellissimo/user")
 @RequiredArgsConstructor
 public class RegistrationController {

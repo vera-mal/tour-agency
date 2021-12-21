@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import touragency.backend.dto.Help;
 import touragency.backend.service.HelpService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bellissimo")
 public class HelpController {
     private final HelpService helpService;

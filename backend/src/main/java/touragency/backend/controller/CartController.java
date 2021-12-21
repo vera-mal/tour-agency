@@ -9,9 +9,9 @@ import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
 import touragency.backend.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bellissimo")
 public class CartController {
     private final UserService userService;
@@ -43,5 +43,10 @@ public class CartController {
     @PostMapping("/users/{userId}/cart/submit")
     public PromocodeDTO submitOrder(@PathVariable Long userId) {
         return cartService.submitOrder(userId);
+    }
+
+    @DeleteMapping("/users/{userId}/cart/{cartItemId}")
+    public void deleteTourFromCart(@PathVariable Long userId, @PathVariable Long cartItemId) {
+        cartService.deleteTourFromCart(userId, cartItemId);
     }
 }

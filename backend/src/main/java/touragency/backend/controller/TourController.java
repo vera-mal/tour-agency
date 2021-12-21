@@ -8,9 +8,9 @@ import touragency.backend.service.TourService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bellissimo")
 public class TourController {
     private final TourService tourService;
