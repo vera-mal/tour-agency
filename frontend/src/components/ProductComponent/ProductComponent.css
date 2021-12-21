@@ -1,7 +1,10 @@
 .product-item {
-  padding: 16px 16px 26px;
+  padding: 24px;
   max-width: fit-content;
   border-radius: 8px;
+}
+.product-item-catalogue {
+  padding: 16px 16px 26px;
 }
 
 .product-item:hover {
@@ -27,7 +30,7 @@
   display: flex;
   flex-direction: column;
   min-width: 300px;
-  margin-right: 12px;
+  margin-right: 24px;
 }
 
 .product-image {

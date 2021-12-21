@@ -68,3 +68,50 @@
   width: 500px;
   border-radius: 20px;
 }
+
+.tour-sum {
+  margin-left: auto;
+  margin-top: 30px;
+  width: fit-content;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 128%;
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #3A3A44;
+}
+
+.tour-add-button {
+  margin-left: auto;
+  width: fit-content;
+}
+
+.tour-add-button button {
+  margin-top: 30px;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+
+  background: #EBF2FF;
+  border-radius: 10px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.75px;
+  text-transform: capitalize;
+
+  color: #2264D1;
+}
+
+.tour-add-button i {
+  margin-right: 10px;
+}
