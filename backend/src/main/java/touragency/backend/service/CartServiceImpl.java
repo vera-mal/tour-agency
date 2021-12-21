@@ -112,7 +112,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void changeTicketQuantity(Long userId, TicketsQuantityDTO quantity) {
+    public CartChangeDTO changeTicketQuantity(Long userId, TicketsQuantityDTO quantity) {
         Client client = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Client.class.getName(), userId));
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
@@ -130,9 +130,10 @@ public class CartServiceImpl implements CartService {
                 tourItemRepository.save(tourItem);
                 order.setTotalPrice(order.getTotalPrice().subtract(sumDifference));
                 orderRepository.save(order);
-                break;
+                return new CartChangeDTO(order.getTotalPrice());
             }
         }
+        return null;
     }
 
     public static CartDTO getCartFromOrder(Order order) {
