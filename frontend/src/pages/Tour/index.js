@@ -6,6 +6,8 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import FavouritesButton from "../../components/FavouritesButton";
 import './Tour.css';
 import IncDecGroup from "../../components/IncDecGroup";
+import moment from "moment";
+import Button from "@mui/material/Button";
 
 const Tour = ({token = null, userId = null}) => {
   const { id } = useParams();
@@ -38,7 +40,6 @@ const Tour = ({token = null, userId = null}) => {
   }, [fetchData])
 
   const handleLike = (value) => {
-    // setIsLoaded(false);
     const requestOptions = {
       method: value ? 'POST' : 'DELETE',
       headers: {"Authorization": "Bearer " + token},
@@ -47,10 +48,8 @@ const Tour = ({token = null, userId = null}) => {
       .then(response => response.json())
       .then((result) => {
           fetchData();
-          console.log(result)
         },
         (error) => {
-          console.log(error)
           fetchData();
         })
   };
@@ -73,12 +72,10 @@ const Tour = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(response => response.json())
       .then((result) => {
-          console.log(result)
           setValues(null);
           setDate('');
         },
         (error) => {
-          console.log(error)
         })
   };
 
@@ -97,7 +94,7 @@ const Tour = ({token = null, userId = null}) => {
               <div className='tour-description'>{content.description}</div>
               <div className='tour-form-control-flash-box'>  
                 <div className='tour-form-control'>
-                  <FormControl fullWidth>
+                  <FormControl variant='standard' fullWidth>
                     <InputLabel id="demo-simple-select-label">Дата</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
@@ -110,10 +107,16 @@ const Tour = ({token = null, userId = null}) => {
                     </Select>
                   </FormControl>  
                 </div>   
-                <div className='tour-time'>{content.time}</div>
+                <div className='tour-time'>{moment(content.time, 'HH:mm:ss').format('HH:mm')}</div>
               </div>
               <div className='tour-inc-dec'>
-                <IncDecGroup isReadOnly={!token} hideAmount={!token} prices={content.prices} onValueChange={handleValueChange}/>
+                <IncDecGroup
+                  key={!!values}
+                  isReadOnly={!token}
+                  hideAmount={!token}
+                  prices={content.prices}
+                  onValueChange={handleValueChange}
+                />
               </div>
               {!!values && Object.values(values).some((elem) => elem > 0) &&
                 <div className='tour-sum'>
@@ -123,13 +126,13 @@ const Tour = ({token = null, userId = null}) => {
                 </div>
               }
                 <div className='tour-add-button'>
-                  <button
+                  <Button
                     disabled={!token || !selectedDate || !values || !Object.values(values).some((elem) => elem > 0)}
                     onClick={handleAddToCart}
                   >
                     <i className="fas fa-shopping-cart"/>
                     Добавить в корзину
-                  </button>
+                  </Button>
                 </div>
             </div>
 

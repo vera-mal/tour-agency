@@ -101,6 +101,11 @@
 
 .product-item-delete-button {
   margin-top: auto;
+}
+
+.product-item-delete-button button {
+  font-family: Inter;
+  margin-top: auto;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
@@ -110,7 +115,6 @@
   align-items: center;
   text-align: left;
   letter-spacing: 0.054em;
-  text-transform: capitalize;
 
   color: #2264D1;
 

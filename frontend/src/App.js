@@ -43,10 +43,26 @@ function App() {
     fetchData();
   }, [fetchData])
 
+  useEffect(() => {
+    setToken(window.sessionStorage.getItem("token"));
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("token", token);
+  }, [token]);
+
+  useEffect(() => {
+    setCurrentUserId(window.sessionStorage.getItem("currentUserId"));
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("currentUserId", currentUserId);
+  }, [currentUserId]);
+
   return (
     <BrowserRouter>
       <ScrollToTop>
-        <div className="App">
+        <div key={currentUserId} className="App">
           {isOpenAuth &&
             <FormBackdrop>
               <AuthorizationForm
@@ -89,11 +105,11 @@ function App() {
               <Route path='/tour/:id' element={<Tour token={token} userId={currentUserId} />} />
             </Routes>
           </div>
-          <div className='app-upper-layer'>
+          {/*<div className='app-upper-layer'>
             <div className='app-help-button'>
               <HelpButton />
             </div>
-          </div>
+          </div>*/}
         <Footer categories={categories}/>
         </div>
       </ScrollToTop>

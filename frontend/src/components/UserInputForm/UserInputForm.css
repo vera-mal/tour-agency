@@ -10,6 +10,7 @@
   position: relative;
   padding: 45px 45px 20px;
   background: #fff;
+  z-index: 5;
 }
   
 .user-input-form-input {
@@ -74,5 +75,5 @@
   position: absolute;
   top: 30px;
   right: 45px;
-  z-index: 2;
+  z-index: 6;
 }
