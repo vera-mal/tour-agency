@@ -66,7 +66,7 @@ const Favourites = () => {
               onDeleteClick={() => handleDelete(item.id)}
             />
           )
-        : <LabelCustom text='Здесь пока ничего нет' width="400px"/>}
+        : <LabelCustom text='Избранных экскурсий нет' width="400px"/>}
       </div>
     </>
   );

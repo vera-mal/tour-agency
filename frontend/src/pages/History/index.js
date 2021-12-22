@@ -2,6 +2,9 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PageHeading from "../../components/PageHeading";
 import ProductComponent from "../../components/ProductComponent";
 import LabelCustom from "../../components/LabelCustom";
+import './History.css';
+import moment from 'moment';
+import 'moment/locale/ru'
 
 const History = () => {
   const [error, setError] = useState(null);
@@ -31,21 +34,22 @@ const History = () => {
       <PageHeading>История</PageHeading>
 
       <div className='history-page'>
-        {content.map((order) =>
-          <div className='order-page-item'>
-            <LabelCustom text={'Заказ №' + order.id} />
-            <div className='order-page-date'>
-              {order.date}
+      {isLoaded && !error && content.length !== 0 ?
+        content.map((order) =>
+          <div className='history-page-flex-box'>
+            <div className='history-page-label'><LabelCustom text={'Заказ №' + order.id} /></div>
+            <div className='history-page-date'>              
+              {moment(order.date).locale('ru').format('LLL')}      
             </div>
 
-            {order.order.cartItems.map((item) =>
+            <div>{order.order.cartItems.map((item) =>
               item.type === 'tour' ?
               <ProductComponent
                 id={item.cartItemId}
                 key={item.cartItemId}
                 type='history'
                 title={item.name}
-                date={item.date}
+                date={moment(item.date).locale('ru').format('LLL')}
                 imageUrl={item.linksToImages.split(';')[0]}
                 price={item.fullPrice}
                 amounts={item.items.reduce((acc, curr) => {
@@ -64,19 +68,19 @@ const History = () => {
                   imageUrl={item.linksToImages}
                   price={item.fullPrice}
                 />
-            )}
+            )}</div>
 
-
-            {!!order.order.certificateDiscount &&
+            <div>{!!order.order.certificateDiscount &&
               <LabelCustom
                 text={'Применен промокод на сумму ' + order.order.certificateDiscount + ' рублей'}
                 width="50%"
-              />}
-            <div>Итого: &#8381;{order.order.totalPrice}</div>
+              />}</div>
+            
+            <div className='history-page-total-price'>Сумма заказа: &#8381;{order.order.totalPrice}</div>
           </div>
-        )}
-      </div>
-      
+        )
+      : <div className='history-page-label'><LabelCustom text='История заказов пуста' width="400px"/></div>}
+      </div>      
     </div>
   );
 };
