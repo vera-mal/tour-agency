@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import touragency.backend.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -19,10 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        MyAuthenticationFilter customAuthenticationFilter = new MyAuthenticationFilter(authenticationManagerBean());
+        MyAuthenticationFilter customAuthenticationFilter = new MyAuthenticationFilter(authenticationManagerBean(), userService);
         customAuthenticationFilter.setFilterProcessesUrl("/bellissimo/login");
 
         http.csrf().disable();
