@@ -130,6 +130,11 @@ public class UserServiceImpl implements UserService {
         return orders.stream().map(this::convertOrderToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public Long getIdByLogin(String login) {
+        return userRepository.findByLogin(login).getId();
+    }
+
     public OrderDTO convertOrderToDTO(Order order) {
         return new OrderDTO(order.getId(), order.getDate(), CartServiceImpl.getCartFromOrder(order));
     }

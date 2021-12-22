@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import touragency.backend.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -20,12 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        MyAuthenticationFilter customAuthenticationFilter = new MyAuthenticationFilter(authenticationManagerBean());
+        MyAuthenticationFilter customAuthenticationFilter = new MyAuthenticationFilter(authenticationManagerBean(), userService);
         customAuthenticationFilter.setFilterProcessesUrl("/bellissimo/login");
+
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/bellissimo/login/**").permitAll();
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Bean

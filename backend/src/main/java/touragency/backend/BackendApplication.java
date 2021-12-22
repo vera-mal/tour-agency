@@ -24,16 +24,6 @@ public class BackendApplication {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/bellissimo").allowedOrigins("http://localhost:3000");
-            }
-        };
-    }
-
-    @Bean
     public CommandLineRunner demo(CategoryService categoryService, TourRepository tourRepository,
                                   EventRepository eventRepository, CertificateRepository certificateRepository,
                                   UserService userService, DiscountRepository discountRepository,

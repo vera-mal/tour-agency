@@ -1,5 +1,7 @@
 package touragency.backend.exception;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,6 +28,11 @@ public class ControllerAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Response> handleAccessDeniedException(AccessDeniedException e) {
         return new ResponseEntity<>(new Response("Доступ запрещен"), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Response> handleConstraintViolationException(ConstraintViolationException e) {
+        return new ResponseEntity<>(new Response("Пользователь с таким логином уже зарегистрирован"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

@@ -16,4 +16,6 @@ public interface UserService {
     TourAddingDTO addTourToCart(TourAddingDTO tourDTO, Long userId);
 
     List<OrderDTO> getHistory(Long userId);
+
+    Long getIdByLogin(String login);
 }
