@@ -35,6 +35,7 @@ public class CartController {
     }
 
 //    @PreAuthorize("hasAuthority('USER')")
+//    @PreAuthorize("#username == 'smalex'")
     @GetMapping("/users/{userId}/cart")
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
