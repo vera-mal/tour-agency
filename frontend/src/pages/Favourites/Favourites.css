@@ -1,0 +1,11 @@
+.favourites-page {
+  margin-top: 54px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.favourites-page > * {
+  margin-bottom: 54px;
+}

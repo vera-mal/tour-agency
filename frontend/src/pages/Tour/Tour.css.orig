@@ -1,0 +1,83 @@
+.tour-page {
+  
+}
+
+.tour-flash-box {
+  display: flex;
+  position: relative;
+  flex: 0 0 100%;
+}
+
+.tour-form-control-flash-box {
+  display: flex;
+}
+
+.tour-image {
+  object-fit: cover;
+  width: 425px;
+  height: 293px;
+  left: 37px;
+  top: 31px;
+  border-radius: 26px;
+  margin-bottom: 20px;
+}
+
+.tour-images {
+  padding-right: 30px;
+}
+
+.tour-description {
+  top: 30px;
+  padding-bottom: 30px;
+<<<<<<< HEAD
+  font-style: normal;
+  font-weight: normal;
+  /*font-size: 24px;
+  line-height: 32px;*/
+  letter-spacing: 0.44px;
+  text-indent: 1px;
+  text-align: justify;
+=======
+>>>>>>> frontend
+}
+
+.tour-page-heading {
+  padding-right: 80px;
+  padding-bottom: 30px;
+}
+
+.common-page-heading {
+  font-size: 24px;
+  line-height: normal;
+}
+
+.tour-form-control {
+  width: 200px;
+  background: #EBF2FF;
+  border-radius: 4px;
+}
+
+.tour-time {
+  padding-top: 16px;
+  padding-left: 30px;
+  font-weight: bold;
+}
+
+.tour-favourite-button {
+<<<<<<< HEAD
+  position: absolute;
+  top: -10px;
+  right: 0;
+}
+
+.tour-inc-dec {
+  background: #EDEDF0;
+  padding: 20px;
+  margin-top: 150px;
+  margin-left: auto;
+  width: 500px;
+  border-radius: 20px;
+=======
+  padding-top: 5px;
+>>>>>>> frontend
+}

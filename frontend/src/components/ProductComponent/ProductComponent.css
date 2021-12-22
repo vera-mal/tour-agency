@@ -1,0 +1,148 @@
+.product-item {
+  padding: 24px;
+  max-width: fit-content;
+  border-radius: 8px;
+}
+.product-item-catalogue {
+  padding: 16px 16px 26px;
+}
+
+.product-item:hover {
+  box-shadow: 0px 2px 4px rgba(59, 69, 123, 0.2), 0px 4px 8px rgba(92, 107, 192, 0.2);
+}
+
+.product-item-content {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  width: 938px;
+  min-height: 260px;
+}
+
+.catalogue {
+  flex-direction: column;
+  width: unset;
+  max-width: 339px;
+  min-height: 430px;
+}
+
+.product-item-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  margin-right: 24px;
+}
+
+.product-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.catalogue .product-image {
+  width: unset;
+  height: 224px;
+  margin: 0 0 12px;
+}
+
+.product-item-text {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 0.15px;
+  color: #19191D;
+}
+
+.catalogue .product-title {
+  font-size: 24px;
+  line-height: 150%;
+  letter-spacing: 0.0275em;
+}
+
+.product-date {
+  margin-top: auto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.75px;
+  color: #2264D1;
+}
+
+.product-price {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 150%;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.product-date-no-indent {
+  margin: 0 0 30px auto;
+}
+
+.catalogue .product-price {
+  position: static;
+}
+
+.product-item-delete-button {
+  margin-top: auto;
+}
+
+.product-item-delete-button button {
+  font-family: Inter;
+  margin-top: auto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 114%;
+
+  display: flex;
+  align-items: center;
+  text-align: left;
+  letter-spacing: 0.054em;
+
+  color: #2264D1;
+
+  cursor: pointer;
+  background: unset;
+  border: unset;
+  width: fit-content;
+}
+
+.product-item-inc-dec {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 86px;
+}
+
+.product-item-inc-dec-group {
+  width: 70%;
+  margin-left: auto;
+}
+
+.product-item-label {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 114%;
+  letter-spacing: 0.054em;
+  text-transform: capitalize;
+  color: #5A5B6A;
+  margin-right: 20px;
+}

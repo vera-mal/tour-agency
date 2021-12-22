@@ -1,0 +1,38 @@
+.increment-decrement-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 12px;
+}
+
+.increment-decrement-group-string {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.increment-decrement-group-label {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 114%;
+  letter-spacing: 0.054em;
+  text-transform: capitalize;
+  color: #5A5B6A;
+}
+
+.increment-decrement-group-amount {
+  color: #19191D;
+}
+
+.increment-decrement-group-amount-hidden {
+  visibility: hidden;
+}
+
+.increment-decrement-group-price {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 150%;
+  margin-left: auto;
+}

@@ -1,0 +1,17 @@
+.closing-button {
+    display: flex;
+    align-items: center;
+  }
+
+.close-button {
+    border-radius: 100%;
+    width: 48px;
+    height: 48px;
+    background-color: #EBF2FF;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .close-button i{
+    color: #2264D1;
+  }

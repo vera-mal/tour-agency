@@ -1,0 +1,41 @@
+.header {
+  padding: 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  opacity: 0.5;
+}
+
+.text:not(:last-child), .group .link:not(:last-child) {
+  margin-right: 35px;
+}
+
+.group .link {
+  color: #787885;
+}
+
+.header-upper {
+  height: 52px;
+  color: #787885;
+}
+
+.header-lower {
+  height: 80px;
+  background: #9DC2FF;
+}
+
+.header-lower .link {
+  padding: 0 12px;
+  margin-right: 9px;
+  color: #FFFFFF;
+  filter: drop-shadow(0px 2px 4px rgba(27, 78, 163, 0.2)) drop-shadow(0px 4px 8px rgba(41, 121, 255, 0.2));
+}
