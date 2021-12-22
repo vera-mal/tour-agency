@@ -110,6 +110,7 @@
   text-transform: capitalize;
 
   color: #2264D1;
+  cursor: pointer;
 }
 
 .tour-add-button i {

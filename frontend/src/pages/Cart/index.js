@@ -5,6 +5,8 @@ import Spinner from "../../components/Spinner";
 import ProductComponent from "../../components/ProductComponent";
 import LabelCustom from "../../components/LabelCustom";
 import './Cart.css'
+import moment from 'moment';
+import 'moment/locale/ru'
 
 const Cart = (props) => {
   const [error, setError] = useState(null);
@@ -98,7 +100,7 @@ const Cart = (props) => {
       <PageHeading>Корзина</PageHeading>
       <Spinner isVisible={!isLoaded}/>
 
-      <div className='favourites-page'>
+      <div className='cart-page'>
         {isLoaded && !error && (!!content && content.cartItems.length !== 0 ?
           <>
             {content.cartItems.map((item) =>
@@ -108,7 +110,7 @@ const Cart = (props) => {
                   id={item.cartItemId}
                   type='cart'
                   title={item.name}
-                  date={item.date}
+                  date={moment(item.date).locale('ru').format('LLL')}    
                   imageUrl={item.linksToImages.split(';')[0]}
                   price={item.fullPrice}
                   amounts={item.items.reduce((acc, curr) => {
@@ -146,12 +148,11 @@ const Cart = (props) => {
               />
               <button className="cart-page-promocode-button" onClick={applyCode}>Применить</button>
             </div> :
-              <LabelCustom text={'Применен промокод на сумму ' + content.certificateDiscount + ' рублей'} width="50%"/>}
+              <div className='cart-page-label'><LabelCustom text={'Применен промокод на сумму ' + content.certificateDiscount + ' рублей'} width="50%"/></div>}
+            <div className="cart-total-price">Сумма заказа: &#8381;{content.totalPrice}</div>
             <button onClick={handleSubmit} className="authorization-form-button" type="submit">Оформить заказ</button>
-            <div className="cart-total-price">Итого: &#8381;{content.totalPrice}</div>
           </>
-
-          : <LabelCustom text='Здесь пока ничего нет' width="400px"/>)}
+          : <LabelCustom text='Корзина пуста' width="400px"/>)}
       </div>
     </>
   );
