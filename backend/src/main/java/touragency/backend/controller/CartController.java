@@ -34,8 +34,7 @@ public class CartController {
         certificateService.addCertificateToCart(userId, certificateId, quantity);
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @PreAuthorize("#username == 'smalex'")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/users/{userId}/cart")
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
