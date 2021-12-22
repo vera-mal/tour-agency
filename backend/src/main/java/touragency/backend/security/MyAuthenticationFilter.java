@@ -45,7 +45,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 300 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30000 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
