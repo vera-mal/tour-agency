@@ -37,7 +37,7 @@ public class BackendApplication {
     public CommandLineRunner demo(CategoryService categoryService, TourRepository tourRepository,
                                   EventRepository eventRepository, CertificateRepository certificateRepository,
                                   UserService userService, DiscountRepository discountRepository,
-                                  CertificateItemRepository certificateItemRepository) {
+                                  CertificateItemRepository certificateItemRepository, RoleRepository roleRepository) {
         return (args) -> {
             Category category1 = new Category(null, "boat-trips", "Водные прогулки");
             Category category2 = new Category(null, "walking-tours", "Пешие экскурсии");
@@ -323,6 +323,8 @@ public class BackendApplication {
             certificateItemRepository.save(new CertificateItem(null, 222, false, certificate2));
             certificateItemRepository.save(new CertificateItem(null, 333, false, certificate3));
 
+            Role role = new Role(null, "USER");
+            roleRepository.save(role);
             userService.saveUser(new UserRegistrationDTO("Pavel", "Smirnov", "smpas",
                     "1234", "1234"));
             userService.addTourToFavorite(1L, 3L);

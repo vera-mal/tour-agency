@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final DiscountRepository discountRepository;
     private final TourItemRepository tourItemRepository;
     private final CartItemRepository cartItemRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -37,6 +38,9 @@ public class UserServiceImpl implements UserService {
         newClient.setSurname(userDTO.getSurname());
         newClient.setLogin(userDTO.getLogin());
         newClient.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleRepository.getById(1L));
+        newClient.setRoles(roles);
         newClient = userRepository.save(newClient);
 
         Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,

@@ -1,6 +1,7 @@
 package touragency.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import touragency.backend.dto.*;
 import touragency.backend.service.CartService;
@@ -30,6 +31,7 @@ public class CartController {
         certificateService.addCertificateToCart(userId, certificateId, quantity);
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/users/{userId}/cart")
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
