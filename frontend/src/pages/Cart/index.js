@@ -8,11 +8,15 @@ import './Cart.css'
 import moment from 'moment';
 import 'moment/locale/ru'
 import {Alert} from "@mui/material";
+import FormBackdrop from "../../components/FormBackdrop";
+import UserInputForm from "../../components/UserInputForm";
+import ClosingButton from "../../components/ClosingButton";
 
 const Cart = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [windowValues, setWindowValues] = useState(null);
   const [code, setCode] = useState('');
 
   const fetchData = useCallback(() => {
@@ -53,7 +57,6 @@ const Cart = ({token = null, userId = null}) => {
           fetchData();
         },
         (error) => {
-        console.log(2)
           fetchData();
         })
   };
@@ -68,7 +71,7 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(response => response.json())
       .then((result) => {
-          setContent({...content, totalPrice: result.totalPrice})
+          setContent({...content, totalPrice: result.totalPrice});
         },
         (error) => {
         })
@@ -83,8 +86,8 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/submit', requestOptions)
       .then(response => response.json())
       .then((result) => {
-        console.log('code', result)
-        setContent(null)
+        setContent(null);
+        setWindowValues(result);
         },
         (error) => {
         })
@@ -109,6 +112,28 @@ const Cart = ({token = null, userId = null}) => {
     <>
       <PageHeading>Корзина</PageHeading>
       <Spinner isVisible={!isLoaded}/>
+
+
+      {!!windowValues && windowValues?.length !== 0 &&
+        <FormBackdrop>
+          <div className='cart-page-panel'>
+            <div className='cart-page-panel-button'>
+              <ClosingButton onClick={() => setWindowValues(null)} />
+            </div>
+            <PageHeading>Промокоды</PageHeading>
+            <div className='cart-page-panel-text'>
+              {windowValues.map((item, index) =>
+                <div key={index}>
+                  Промокод на сумму {item.nominal} рублей:{' '}
+                  <span className='cart-page-panel-text cart-page-panel-text-blue'>
+                    {item.promocode}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </FormBackdrop>
+      }
 
       <div className='cart-page'>
         {isLoaded && !error && (!!content && content.cartItems.length !== 0 ?

@@ -3,6 +3,8 @@ import './ProductComponent.css'
 import image from '../../mocks/image1.png'
 import IncDec from "../IncDec";
 import IncDecGroup from "../IncDecGroup";
+import defaultImage from '../../assets/defaultImage.jpg'
+import Button from "@mui/material/Button";
 
 const ProductComponent = ({
     id,
@@ -28,7 +30,7 @@ const ProductComponent = ({
       <div className={'product-item-content ' + type}>
         {type === 'catalogue' ? (
             <>
-              <img src={imageUrl} alt="" className="product-image"/>
+              <img src={imageUrl || defaultImage} alt="" className="product-image"/>
               <div className="product-title">{title}</div>
               <div className="product-date">Ближайшая экскурсия: {date}</div>
               <div className="product-price">&#8381;{price}</div>
@@ -36,23 +38,29 @@ const ProductComponent = ({
           ) : (
             <>
               <div className='product-item-left'>
-                <img src={imageUrl} alt="" className="product-image"/>
+                <img src={imageUrl || defaultImage} alt="" className="product-image"/>
                 {type === 'favs' || type === 'cart' || type === 'certificate' && !!onDeleteClick ? (
-                    <button
+                  <div
+                    className='product-item-delete-button'
+                  >
+                    <Button
                       onClick={(event) => onDeleteClick(event, id)}
-                      className='product-item-delete-button'
                     >
                       Удалить
-                    </button>
+                    </Button>
+                  </div>
                   ) : type === 'certificate' ? !!onAddToCartClick && (
-                    <button
-                      onClick={(event) => {
-                        onAddToCartClick(event, id);
-                      }}
+                    <div
                       className='product-item-delete-button'
                     >
-                      Добавить в корзину
-                    </button>
+                      <Button
+                        onClick={(event) => {
+                          onAddToCartClick(event, id);
+                        }}
+                      >
+                        Добавить в корзину
+                      </Button>
+                    </div>
                 ) : <>
 
                 </>
