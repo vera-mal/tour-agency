@@ -1,14 +1,14 @@
 package touragency.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import touragency.backend.dto.CartDTO;
-import touragency.backend.dto.PromocodeDTO;
-import touragency.backend.dto.TicketsQuantityDTO;
-import touragency.backend.dto.TourAddingDTO;
+import touragency.backend.dto.*;
 import touragency.backend.service.CartService;
 import touragency.backend.service.CertificateService;
 import touragency.backend.service.UserService;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -31,6 +31,7 @@ public class CartController {
         certificateService.addCertificateToCart(userId, certificateId, quantity);
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/users/{userId}/cart")
     public CartDTO getCart(@PathVariable Long userId) {
         return cartService.getCart(userId);
@@ -42,7 +43,7 @@ public class CartController {
     }
 
     @PostMapping("/users/{userId}/cart/submit")
-    public PromocodeDTO submitOrder(@PathVariable Long userId) {
+    public List<PromocodeDTO> submitOrder(@PathVariable Long userId) {
         return cartService.submitOrder(userId);
     }
 
@@ -52,7 +53,7 @@ public class CartController {
     }
 
     @PutMapping("/users/{userId}/cart")
-    public void changeTicketQuantity(@PathVariable Long userId, @RequestBody TicketsQuantityDTO quantity) {
-        cartService.changeTicketQuantity(userId, quantity);
+    public CartChangeDTO changeTicketQuantity(@PathVariable Long userId, @RequestBody TicketsQuantityDTO quantity) {
+        return cartService.changeTicketQuantity(userId, quantity);
     }
 }

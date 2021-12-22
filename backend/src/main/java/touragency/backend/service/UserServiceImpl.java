@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final DiscountRepository discountRepository;
     private final TourItemRepository tourItemRepository;
     private final CartItemRepository cartItemRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -37,6 +38,9 @@ public class UserServiceImpl implements UserService {
         newClient.setSurname(userDTO.getSurname());
         newClient.setLogin(userDTO.getLogin());
         newClient.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleRepository.getById(1L));
+        newClient.setRoles(roles);
         newClient = userRepository.save(newClient);
 
         Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
@@ -100,7 +104,7 @@ public class UserServiceImpl implements UserService {
         AmountDTO amounts = tourDTO.getAmounts();
         TourItem[] tourItems = new TourItem[3];
         tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
-                amounts.getFull(), tour.getPrice().multiply(BigDecimal.valueOf(amounts.getFull())));
+                amounts.getFull(), tour.getPrice());
         tourItems[1] = new TourItem(null, event, discountRepository.getById(2L),
                 amounts.getSeniors(), tour.getPrice().multiply(BigDecimal.valueOf(0.7)));
         tourItems[2] = new TourItem(null, event, discountRepository.getById(3L),

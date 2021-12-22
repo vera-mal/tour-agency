@@ -2,6 +2,7 @@ package touragency.backend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @org.springframework.web.bind.annotation.ControllerAdvice
@@ -22,8 +23,13 @@ public class ControllerAdvice {
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-/*    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Response> handleAccessDeniedException(AccessDeniedException e) {
+        return new ResponseEntity<>(new Response("Доступ запрещен"), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Response> handleAnyException(Exception e) {
         return new ResponseEntity<>(new Response("Something went wrong"), HttpStatus.BAD_REQUEST);
-    }*/
+    }
 }

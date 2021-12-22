@@ -1,8 +1,11 @@
 package touragency.backend.service;
 
+import touragency.backend.dto.CartChangeDTO;
 import touragency.backend.dto.CartDTO;
 import touragency.backend.dto.PromocodeDTO;
 import touragency.backend.dto.TicketsQuantityDTO;
+
+import java.util.List;
 
 public interface CartService {
 
@@ -10,9 +13,9 @@ public interface CartService {
 
     CartDTO applyPromoCode(Long userId, Integer promoCode);
 
-    PromocodeDTO submitOrder(Long userId);
+    List<PromocodeDTO> submitOrder(Long userId);
 
     void deleteTourFromCart(Long userId, Long cartItemId);
 
-    void changeTicketQuantity(Long userId, TicketsQuantityDTO quantity);
+    CartChangeDTO changeTicketQuantity(Long userId, TicketsQuantityDTO quantity);
 }
