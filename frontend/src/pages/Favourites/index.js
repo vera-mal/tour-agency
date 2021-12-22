@@ -5,13 +5,18 @@ import './Favourites.css'
 import LabelCustom from "../../components/LabelCustom";
 import Spinner from "../../components/Spinner";
 
-const Favourites = () => {
+const Favourites = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const fetchData = useCallback(() => {
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite')
+    const requestOptions = {
+      method: 'GET',
+      headers: {"Authorization": "Bearer " + token},
+    };
+
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite', requestOptions)
       .then(res => res.json())
       .then((result) => {
           setContent(result);
@@ -30,21 +35,20 @@ const Favourites = () => {
   const handleDelete = (id) => {
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+    headers.append('Authorization', 'Bearer ' + token);
 
     const requestOptions = {
       method: 'DELETE',
       headers: headers
     };
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite/' + id, requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite/' + id, requestOptions)
       .then(response => response.json())
       .then((result) => {
           setContent(content.filter(tour => tour.id !== id));
           fetchData();
         },
         (error) => {
-          console.log(error);
           fetchData();
-          // setError(error);
         })
   };
 

@@ -7,7 +7,7 @@ import FavouritesButton from "../../components/FavouritesButton";
 import './Tour.css';
 import IncDecGroup from "../../components/IncDecGroup";
 
-const Tour = () => {
+const Tour = ({token = null, userId = null}) => {
   const { id } = useParams();
   const [error, setError] = useState(null);
   const [content, setContent] = useState(null);
@@ -20,7 +20,7 @@ const Tour = () => {
   }, [id])
 
   const fetchData = useCallback(() => {
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/tours' + (id ? '/' + id : ''))
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/tours' + (id ? '/' + id : ''))
       .then(res => res.json())
       .then((result) => {
           setContent(result);
@@ -41,13 +41,16 @@ const Tour = () => {
     // setIsLoaded(false);
     const requestOptions = {
       method: value ? 'POST' : 'DELETE',
+      headers: {"Authorization": "Bearer " + token},
     };
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite/' + id, requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite/' + id, requestOptions)
       .then(response => response.json())
       .then((result) => {
           fetchData();
+          console.log(result)
         },
         (error) => {
+          console.log(error)
           fetchData();
         })
   };
@@ -61,24 +64,21 @@ const Tour = () => {
   }
 
   const handleAddToCart = () => {
-    // setIsLoaded(false);
     const requestOptions = {
       method: 'POST',
-      headers: {"Content-Type": "application/json"},
+      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
       body: JSON.stringify({ tourId: id, date: selectedDate, amounts: values })
     };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart', requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(response => response.json())
       .then((result) => {
-          console.log(1, result);
+          console.log(result)
           setValues(null);
           setDate('');
-          // fetchData();
-          // setIsLoaded(true);
         },
         (error) => {
-          console.log(2, error);
+          console.log(error)
         })
   };
 
@@ -113,7 +113,7 @@ const Tour = () => {
                 <div className='tour-time'>{content.time}</div>
               </div>
               <div className='tour-inc-dec'>
-                <IncDecGroup prices={content.prices} onValueChange={handleValueChange}/>
+                <IncDecGroup isReadOnly={!token} hideAmount={!token} prices={content.prices} onValueChange={handleValueChange}/>
               </div>
               {!!values && Object.values(values).some((elem) => elem > 0) &&
                 <div className='tour-sum'>
@@ -122,13 +122,22 @@ const Tour = () => {
                 }, 0)}
                 </div>
               }
-              {selectedDate && !!values && Object.values(values).some((elem) => elem > 0) &&
                 <div className='tour-add-button'>
-                  <button onClick={handleAddToCart}><i className="fas fa-shopping-cart"/>Добавить в корзину</button>
-                </div>}
-            </div><div className='tour-favourite-button'>
-              <FavouritesButton isLikedDefault={content.isLiked} onSelect={handleLike}/>
+                  <button
+                    disabled={!token || !selectedDate || !values || !Object.values(values).some((elem) => elem > 0)}
+                    onClick={handleAddToCart}
+                  >
+                    <i className="fas fa-shopping-cart"/>
+                    Добавить в корзину
+                  </button>
+                </div>
             </div>
+
+            {!!token &&
+              <div className='tour-favourite-button'>
+                <FavouritesButton isLikedDefault={content.isLiked} onSelect={handleLike}/>
+              </div>
+            }
           </div>
         }
       </div>

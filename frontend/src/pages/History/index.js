@@ -6,17 +6,21 @@ import './History.css';
 import moment from 'moment';
 import 'moment/locale/ru'
 
-const History = () => {
+const History = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const fetchData = useCallback(() => {
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/history')
+    const requestOptions = {
+      method: 'GET',
+      headers: {"Authorization": "Bearer " + token},
+    };
+
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/history', requestOptions)
       .then(res => res.json())
       .then((result) => {
           setContent(result);
-          console.log(result);
           setIsLoaded(true);
         },
         (error) => {
@@ -34,12 +38,12 @@ const History = () => {
       <PageHeading>История</PageHeading>
 
       <div className='history-page'>
-      {isLoaded && !error && content.length !== 0 ?
+      {isLoaded && !error && (content.length !== 0 ?
         content.map((order) =>
           <div className='history-page-flex-box'>
             <div className='history-page-label'><LabelCustom text={'Заказ №' + order.id} /></div>
-            <div className='history-page-date'>              
-              {moment(order.date).locale('ru').format('LLL')}      
+            <div className='history-page-date'>
+              {moment(order.date).locale('ru').format('LLL')}
             </div>
 
             <div>{order.order.cartItems.map((item) =>
@@ -75,11 +79,11 @@ const History = () => {
                 text={'Применен промокод на сумму ' + order.order.certificateDiscount + ' рублей'}
                 width="50%"
               />}</div>
-            
+
             <div className='history-page-total-price'>Сумма заказа: &#8381;{order.order.totalPrice}</div>
           </div>
         )
-      : <div className='history-page-label'><LabelCustom text='История заказов пуста' width="400px"/></div>}
+      : <div className='history-page-label'><LabelCustom text='История заказов пуста' width="400px"/></div>)}
       </div>      
     </div>
   );

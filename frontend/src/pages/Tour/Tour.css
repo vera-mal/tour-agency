@@ -116,3 +116,8 @@
 .tour-add-button i {
   margin-right: 10px;
 }
+
+.tour-add-button button:disabled {
+  color: #5A5B6A;
+  cursor: unset;
+}
