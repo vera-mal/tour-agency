@@ -4,7 +4,7 @@ import Spinner from "../../components/Spinner";
 import ProductComponent from "../../components/ProductComponent";
 import './Certificates.css'
 
-const Certificates = () => {
+const Certificates = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,13 +29,15 @@ const Certificates = () => {
   const handleAddToCart = (event, id) => {
     const requestOptions = {
       method: 'POST',
+      headers: {"Authorization": "Bearer " + token},
     };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart/certificate/' + id + '/1', requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/certificate/' + id + '/1', requestOptions)
       .then(response => response.json())
       .then((result) => {
         },
         (error) => {
+        console.log(error)
         })
   };
 
@@ -54,7 +56,7 @@ const Certificates = () => {
               title={'Сертификат на сумму '+ certificate.price + ' рублей'}
               price={certificate.price}
               imageUrl={certificate.imagePath}
-              onAddToCartClick={handleAddToCart}
+              onAddToCartClick={!!token ? handleAddToCart : null}
             />
           )
         }

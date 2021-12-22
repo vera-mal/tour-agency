@@ -5,9 +5,11 @@
   align-items: center;
   flex-direction: column;
   width: 400px;
+  height: fit-content;
 
   position: relative;
   padding: 45px 45px 20px;
+  background: #fff;
 }
 
 .authorization-form-input {
@@ -47,7 +49,8 @@
 .authorization-form-closing-button {
   position: absolute;
   top: 30px;
-  right: 1px;
+  right: 45px;
+  z-index: 2;
 }
 
 .authorization-form-button {
@@ -70,8 +73,16 @@
   color: #2264D1;
 }
 
+.authorization-form-button:disabled {
+  color: #5A5B6A;
+}
+
+.authorization-form-button-center {
+  align-self: unset!important;
+  margin: 0.8em!important;
+}
+
 .authorization-form-button-registration {
-  margin: 0.8em;
   padding: 1em;
   border: 1px solid #fff;
   cursor: pointer;

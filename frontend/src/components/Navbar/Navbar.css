@@ -15,6 +15,10 @@
   text-decoration: none;
 }
 
+.category:hover {
+  opacity: 0.6;
+}
+
 .category-blue {
   color: #2979FF;
 }

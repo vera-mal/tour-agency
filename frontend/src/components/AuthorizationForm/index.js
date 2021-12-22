@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "./AuthorizationForm.css";
 import ClosingButton from "../ClosingButton";
+import {Alert} from "@mui/material";
 
-const AuthorizationForm = ({OnCloseButtonClick = () => {}}) => {
+const AuthorizationForm = ({OnCloseButtonClick = () => {}, onSubmit = () => {}, onRegClick = () => {}}) => {
   const [formData, setFormData] = useState({
     login: "",
     password: ""
   });
+  const [token, setToken] = useState();
+  const { login, password } = formData;
+  const [error, setError] = useState('');
 
   const updateFormData = event =>
     setFormData({
@@ -14,11 +18,50 @@ const AuthorizationForm = ({OnCloseButtonClick = () => {}}) => {
       [event.target.name]: event.target.value
     });
 
-  const { login, password } = formData;
+  const handleLogin = () => {
+    var details = {
+      username: login,
+      password: password,
+    };
+
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {"Content-Type": "application/x-www-form-urlencoded", 'origin': 'http://localhost:3000'},
+      body: formBody
+    };
+
+    fetch('https://enigmatic-journey-19735.herokuapp.com/https://bellissimo-tour-agency.herokuapp.com/bellissimo/login', requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        console.log(result);
+        if (result.access_token) {
+          onSubmit(result.access_token, result.id);
+          OnCloseButtonClick();
+        }
+        else if (result.error) {
+            setError('Неверный логин и/или пароль');
+            setFormData({...formData, password: ''})
+          }
+        },
+        (error) => {
+          console.log(2, error);
+        })
+  };
 
   return (
     <div className="authorization-form">
-      <div className="authorization-form-closing-button"><ClosingButton onClick={OnCloseButtonClick}/></div>
+      {token}
+      <div className="authorization-form-closing-button">
+        <ClosingButton onClick={OnCloseButtonClick}/>
+      </div>
       <form className="authorization-form">
         <div className="authorization-form-text">Логин</div>
         <input className="authorization-form-input"
@@ -38,9 +81,17 @@ const AuthorizationForm = ({OnCloseButtonClick = () => {}}) => {
           name="password"
           required
         />
-        <button className="authorization-form-button" type="submit">Войти</button>
+        {error && <Alert severity="error">{error}</Alert>}
+        <button
+          disabled={Object.values(formData).some((elem) => !elem)}
+          onClick={handleLogin}
+          className="authorization-form-button authorization-form-button-center"
+          type='button'
+        >
+          Войти
+        </button>
         <div>или</div>
-        <button className="authorization-form-button-registration">Зарегистрироваться</button>
+        <button onClick={onRegClick} className="authorization-form-button-registration" type='button'>Зарегистрироваться</button>
       </form>
     </div>
   );

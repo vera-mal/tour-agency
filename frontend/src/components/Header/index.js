@@ -4,7 +4,7 @@ import {Button} from "@mui/material";
 import { ReactComponent as Logo } from '../../assets/Logo.svg';
 import {Link} from "react-router-dom";
 
-const Header = () => {
+const Header = ({isAuth = false, onLogInClick = () => {}, onLogOutClick = () => {}}) => {
   return (
     <>
       <div className='header header-upper'>
@@ -20,12 +20,15 @@ const Header = () => {
       </div>
       <div className='header header-lower'>
         <Link to='/' className='logo'><Logo/></Link>
-        <div className='group'>
-          <Link to='/history' className='link'>История заказов</Link>
-          <Link to='/favourites' className='link'>Избранное</Link>
-          <Link to='/cart' className='link'>Корзина</Link>
-          <Button variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Выход</Button>
-        </div>
+        {isAuth ?
+          <div className='group'>
+            <Link to='/history' className='link'>История заказов</Link>
+            <Link to='/favourites' className='link'>Избранное</Link>
+            <Link to='/cart' className='link'>Корзина</Link>
+            <Button onClick={onLogOutClick} variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Выход</Button>
+          </div> :
+          <Button onClick={onLogInClick} variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Вход</Button>
+        }
       </div>
     </>
   );

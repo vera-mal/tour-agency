@@ -18,7 +18,7 @@ const UiKit = () => {
 
   return (
     <div>
-      <IncDec onValueChange={setValue} initialValue={value}/>
+      {/*<IncDec onValueChange={setValue} initialValue={value}/>
       <ClosingButton/>
       <HelpButton/>
       <LabelCustom text='Вы успешно зарегистрированы, можете авторизоваться' width="400px"/>
@@ -29,7 +29,7 @@ const UiKit = () => {
       <ProductComponent id={0} type='history'/>
       <ProductComponent id={0} type='cart'/>
       <IncDecGroup isReadOnly prices={{full: 1000, seniors: 500, minors: 500}}/>
-      <IncDecGroup prices={{full: 1000, seniors: 500, minors: 500}}/>
+      <IncDecGroup prices={{full: 1000, seniors: 500, minors: 500}}/>*/}
       <UserInputForm />
       <AuthorizationForm />
     </div>

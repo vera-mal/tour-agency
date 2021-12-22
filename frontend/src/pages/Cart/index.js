@@ -7,15 +7,21 @@ import LabelCustom from "../../components/LabelCustom";
 import './Cart.css'
 import moment from 'moment';
 import 'moment/locale/ru'
+import {Alert} from "@mui/material";
 
-const Cart = (props) => {
+const Cart = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
   const [content, setContent] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [code, setCode] = useState('');
 
   const fetchData = useCallback(() => {
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart')
+    const requestOptions = {
+      method: 'GET',
+      headers: {"Authorization": "Bearer " + token},
+    };
+
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(res => res.json())
       .then((result) => {
           setContent(result);
@@ -34,18 +40,20 @@ const Cart = (props) => {
   const handleDelete = (cartItemId) => {
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+    headers.append('Authorization', 'Bearer ' + token);
 
     const requestOptions = {
       method: 'DELETE',
       headers: headers
     };
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart/' + cartItemId, requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/' + cartItemId, requestOptions)
       .then(response => response.json())
       .then((result) => {
           setContent(content.cartItems.filter(product => product.cartItemId !== cartItemId));
           fetchData();
         },
         (error) => {
+        console.log(2)
           fetchData();
         })
   };
@@ -53,11 +61,11 @@ const Cart = (props) => {
   const handleValueChange = (cartItemId, value) => {
     const requestOptions = {
       method: 'PUT',
-      headers: {"Content-Type": "application/json"},
+      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
       body: JSON.stringify({ ...value, cartItemId })
     };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart', requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(response => response.json())
       .then((result) => {
           setContent({...content, totalPrice: result.totalPrice})
@@ -69,9 +77,10 @@ const Cart = (props) => {
   const handleSubmit = () => {
     const requestOptions = {
       method: 'POST',
+      headers: {"Authorization": "Bearer " + token},
     };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart/submit', requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/submit', requestOptions)
       .then(response => response.json())
       .then((result) => {
         console.log('code', result)
@@ -84,9 +93,10 @@ const Cart = (props) => {
   const applyCode = () => {
     const requestOptions = {
       method: 'PUT',
+      headers: {"Authorization": "Bearer " + token},
     };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/cart/promocode/' + code, requestOptions)
+    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/promocode/' + code, requestOptions)
       .then(response => response.json())
       .then((result) => {
         setContent({...content, certificateDiscount: result.certificateDiscount, totalPrice: result.totalPrice})
@@ -139,16 +149,27 @@ const Cart = (props) => {
                   onDeleteClick={() => handleDelete(item.cartItemId)}
                 />
             )}
-            {!content.certificateDiscount ? <div className="cart-page-promocode">
-              <input
-                className="authorization-form-input cart-page-promocode-input"
-                onChange={e => setCode(e.target.value)}
-                placeholder="Промокод"
-                type="text"
-              />
-              <button className="cart-page-promocode-button" onClick={applyCode}>Применить</button>
-            </div> :
-              <div className='cart-page-label'><LabelCustom text={'Применен промокод на сумму ' + content.certificateDiscount + ' рублей'} width="50%"/></div>}
+            {!content.certificateDiscount ?
+              <div className="cart-page-promocode">
+                <input
+                  className="authorization-form-input cart-page-promocode-input"
+                  onChange={e => setCode(e.target.value)}
+                  placeholder="Промокод"
+                  type="text"
+                />
+                <button className="cart-page-promocode-button" onClick={applyCode}>Применить</button>
+              </div>
+              : <>
+                  <div className='cart-page-label'>
+                    <LabelCustom text={'Применен промокод на сумму ' + content.certificateDiscount + ' рублей'} width="50%"/>
+                  </div>
+                  {content.certificateDiscount > content.totalPrice &&
+                    <Alert severity="warning">
+                      Сумма сертификата превышает сумму заказа. Неиспользованная часть сертификата сгорит.
+                    </Alert>
+                  }
+                </>
+              }
             <div className="cart-total-price">Сумма заказа: &#8381;{content.totalPrice}</div>
             <button onClick={handleSubmit} className="authorization-form-button" type="submit">Оформить заказ</button>
           </>

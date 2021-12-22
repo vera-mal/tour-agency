@@ -5,9 +5,11 @@
   align-items: center;
   flex-direction: column;
   width: 400px;
+  height: fit-content;
 
   position: relative;
   padding: 45px 45px 20px;
+  background: #fff;
 }
   
 .user-input-form-input {
@@ -48,6 +50,10 @@
   color: #2264D1;
 }
 
+.user-input-form-button:disabled {
+  color: #5A5B6A;
+}
+
 .user-input-form-text {
   width: 100%;
   font-style: normal;
@@ -67,5 +73,6 @@
 .user-input-form-closing-button {
   position: absolute;
   top: 30px;
-  right: 1px;
+  right: 45px;
+  z-index: 2;
 }

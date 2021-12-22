@@ -25,6 +25,10 @@
   color: #19191D;
 }
 
+.increment-decrement-group-amount-hidden {
+  visibility: hidden;
+}
+
 .increment-decrement-group-price {
   font-style: normal;
   font-weight: bold;
