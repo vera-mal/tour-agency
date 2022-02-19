@@ -105,11 +105,9 @@ function App() {
               <Route path='/tour/:id' element={<Tour token={token} userId={currentUserId} />} />
             </Routes>
           </div>
-          {/*<div className='app-upper-layer'>
-            <div className='app-help-button'>
-              <HelpButton />
-            </div>
-          </div>*/}
+          <div className='app-help-button'>
+            <HelpButton />
+          </div>
         <Footer categories={categories}/>
         </div>
       </ScrollToTop>

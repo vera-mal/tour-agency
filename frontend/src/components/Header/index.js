@@ -25,7 +25,7 @@ const Header = ({isAuth = false, onLogInClick = () => {}, onLogOutClick = () => 
             <Link to='/history' className='link'>История заказов</Link>
             <Link to='/favourites' className='link'>Избранное</Link>
             <Link to='/cart' className='link'>Корзина</Link>
-            <Button onClick={onLogOutClick} variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Выход</Button>
+            <Button onClick={onLogOutClick} variant='outlined' style={{border: '1px solid #FFFFFF', color: '#ffffff'}}>Выход</Button>
           </div> :
           <Button onClick={onLogInClick} variant='outlined' style={{border: '1px solid #FFFFFF', color: '#FFFFFF'}}>Вход</Button>
         }
