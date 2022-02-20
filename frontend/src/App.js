@@ -2,7 +2,6 @@ import './App.css';
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
-import UiKit from "./pages/UiKit";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import HelpPage from "./pages/Help";
 import HelpButton from "./components/HelpButton";
@@ -98,7 +97,6 @@ function App() {
               <Route path='/certificates' element={<Certificates token={token} userId={currentUserId} />} />
               <Route path='/help' element={<HelpPage />} />
               <Route path='*' element={<></>} />
-              <Route path='/ui-kit' element={<UiKit />} />
               <Route path='/favourites' element={<Favourites token={token} userId={currentUserId} />} />
               <Route path='/cart' element={<Cart token={token} userId={currentUserId} />} />
               <Route path='/history' element={<History token={token} userId={currentUserId} />} />

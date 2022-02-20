@@ -2,16 +2,21 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PageHeading from "../../components/PageHeading";
 import Spinner from "../../components/Spinner";
 import {useParams} from "react-router-dom";
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {FormControl, InputLabel, Select, MenuItem, Alert} from '@mui/material';
 import FavouritesButton from "../../components/FavouritesButton";
 import './Tour.css';
 import IncDecGroup from "../../components/IncDecGroup";
 import moment from "moment";
 import Button from "@mui/material/Button";
 
+const totalPrice = (values, prices = { full: 1, minor: 1, senior: 1 }) => Object.values(values).reduce((accumulator, currentValue, index) => {
+  return accumulator + currentValue * Object.values(prices)[index];
+}, 0)
+
 const Tour = ({token = null, userId = null}) => {
   const { id } = useParams();
   const [error, setError] = useState(null);
+  const [submitError, setSubmitError] = useState(false);
   const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [values, setValues] = useState(null);
@@ -19,7 +24,7 @@ const Tour = ({token = null, userId = null}) => {
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [id])
+  }, [id]);
 
   const fetchData = useCallback(() => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/tours' + (id ? '/' + id : ''))
@@ -37,7 +42,7 @@ const Tour = ({token = null, userId = null}) => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData])
+  }, [fetchData]);
 
   const handleLike = (value) => {
     const requestOptions = {
@@ -56,27 +61,30 @@ const Tour = ({token = null, userId = null}) => {
 
   const handleValueChange = (value) => {
     setValues(value);
-  }
+  };
 
   const handleDate = (event) => {
     setDate(event.target.value)
-  }
+  };
 
   const handleAddToCart = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
-      body: JSON.stringify({ tourId: id, date: selectedDate, amounts: values })
-    };
+    if (totalPrice(values) <= content.dates.find(({date}) => date === selectedDate).ticketAmount) {
+      setSubmitError(false);
+      const requestOptions = {
+        method: 'POST',
+        headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
+        body: JSON.stringify({tourId: id, date: selectedDate, amounts: values})
+      };
 
-    fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-          setValues(null);
-          setDate('');
-        },
-        (error) => {
-        })
+      fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
+        .then(response => response.json())
+        .then((result) => {
+            setValues(null);
+            setDate('');
+          },
+          (error) => {
+          })
+    } else setSubmitError(true);
   };
 
   return (
@@ -88,6 +96,11 @@ const Tour = ({token = null, userId = null}) => {
             <div className='tour-images'>
               <img src={content.imagesPath.split(';')[0]} alt="" className="tour-image"/>
               <img src={content.imagesPath.split(';')[1]} alt="" className="tour-image"/>
+              {submitError &&
+                <Alert severity="warning">
+                  Пожалуйста, выберите другое количество билетов
+                </Alert>
+              }
             </div>            
             <div>
               <div className='tour-page-heading'><PageHeading >{content.name}</PageHeading></div>              
@@ -103,7 +116,7 @@ const Tour = ({token = null, userId = null}) => {
                       value={selectedDate}
                       onChange={handleDate}
                     >
-                      {content.dates.map((date, id) => <MenuItem key={id} value={date}>{date}</MenuItem>)}
+                      {content.dates.map(({date}, id) => <MenuItem key={id} value={date}>{date}</MenuItem>)}
                     </Select>
                   </FormControl>  
                 </div>   
@@ -120,9 +133,7 @@ const Tour = ({token = null, userId = null}) => {
               </div>
               {!!values && Object.values(values).some((elem) => elem > 0) &&
                 <div className='tour-sum'>
-                  Итого: {Object.values(values).reduce((accumulator, currentValue, index) => {
-                  return accumulator + currentValue * Object.values(content.prices)[index];
-                }, 0)}
+                  Итого: {totalPrice(values, content.prices)}
                 </div>
               }
                 <div className='tour-add-button'>
