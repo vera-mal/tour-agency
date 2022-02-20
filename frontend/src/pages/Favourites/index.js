@@ -19,13 +19,12 @@ const Favourites = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite', requestOptions)
       .then(res => res.json())
       .then((result) => {
-          setContent(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        })
+        if (result?.message) {
+          setError(result.message);
+        } else setContent(result);
+
+        setIsLoaded(true);
+      });
   }, []);
 
   useEffect(() => {

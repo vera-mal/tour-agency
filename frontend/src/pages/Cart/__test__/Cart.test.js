@@ -204,4 +204,32 @@ describe('Cart', () => {
     server.close();
     server.resetHandlers();
   });
+
+  it('buy', async () => {
+    const server = setupServer(
+      rest.get(path, (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(mock))
+      ),
+      rest.post(path + '/submit', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json([{nominal: '1000', promocode: '1'}]))
+      ),
+    );
+    server.listen();
+
+    render(<Cart />)
+
+    let button;
+    await waitFor(() => {
+      button = screen.getByText('Оформить заказ');
+    })
+
+    fireEvent.click(button);
+    await waitFor(() => {
+      const modal = screen.getByText('Промокоды');
+      expect(modal).toBeInTheDocument();
+    })
+
+    server.close();
+    server.resetHandlers();
+  });
 });

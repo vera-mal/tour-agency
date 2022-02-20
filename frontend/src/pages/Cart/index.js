@@ -26,13 +26,11 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
       .then(res => res.json())
       .then((result) => {
-          setContent(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        })
+        if (result?.message) {
+          setError(result.message);
+        } else setContent(result);
+        setIsLoaded(true);
+      })
   }, []);
 
   useEffect(() => {
@@ -51,9 +49,9 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/' + cartItemId, requestOptions)
       .then(response => response.json())
       .then((result) => {
-          setContent({cartItems: content.cartItems.filter(product => product.cartItemId !== cartItemId)});
-        },
-        (error) => {})
+          if (!result?.message)
+            setContent({cartItems: content.cartItems.filter(product => product.cartItemId !== cartItemId)});
+        });
   };
 
   const handleValueChange = (cartItemId, value) => {
@@ -80,10 +78,12 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/submit', requestOptions)
       .then(response => response.json())
       .then((result) => {
-        setContent(null);
-        setWindowValues(result);
-        },
-        (error) => {})
+          console.log(result);
+          if (!result?.message) {
+            setContent(null);
+            setWindowValues(result);
+          }
+        });
   };
 
   const applyCode = () => {

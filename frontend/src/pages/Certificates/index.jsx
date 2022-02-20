@@ -3,9 +3,11 @@ import PageHeading from "../../components/PageHeading";
 import Spinner from "../../components/Spinner";
 import ProductComponent from "../../components/ProductComponent";
 import './Certificates.css'
+import {Alert, Snackbar} from "@mui/material";
 
 const Certificates = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
+  const [submitError, setSubmitError] = useState(null);
   const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -13,13 +15,11 @@ const Certificates = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/certificates')
       .then(res => res.json())
       .then((result) => {
-          setContent(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        })
+        if (result?.message) {
+          setError(result.message);
+        } else setContent(result);
+        setIsLoaded(true);
+        });
   }, []);
 
   useEffect(() => {
@@ -34,9 +34,7 @@ const Certificates = ({token = null, userId = null}) => {
 
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/certificate/' + id + '/1', requestOptions)
       .then(response => response.json())
-      .then((result) => {
-        },
-        (error) => {})
+      .then((response) => setSubmitError(!!response.message));
   };
 
   return (
@@ -59,6 +57,12 @@ const Certificates = ({token = null, userId = null}) => {
           )
         }
       </div>
+
+      <Snackbar open={submitError} autoHideDuration={6000} onClose={() => setSubmitError(false)}>
+        <Alert onClose={() => setSubmitError(false)} severity="error" sx={{ width: '100%' }}>
+          Ошибка. Пожалуйста, повторите попытку позже
+        </Alert>
+      </Snackbar>
     </>
   );
 };

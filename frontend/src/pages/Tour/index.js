@@ -30,14 +30,15 @@ const Tour = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/tours' + (id ? '/' + id : ''))
       .then(res => res.json())
       .then((result) => {
-          setContent(result);
-          setValues(null);
+          if (result?.message) {
+            setError(result.message);
+          } else {
+            setContent(result);
+            setValues(null);
+          }
+
           setIsLoaded(true);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        })
+        });
   }, [id]);
 
   useEffect(() => {
@@ -52,11 +53,8 @@ const Tour = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite/' + id, requestOptions)
       .then(response => response.json())
       .then((result) => {
-          fetchData();
-        },
-        (error) => {
-          fetchData();
-        })
+        if (!result?.message) setContent({...content, isLiked: !content.isLiked});
+      });
   };
 
   const handleValueChange = (value) => {

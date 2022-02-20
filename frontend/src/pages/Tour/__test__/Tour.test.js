@@ -65,10 +65,10 @@ describe('Tour', () => {
       const buttons = screen.getAllByTestId('button-plus');
       fireEvent.click(buttons[0]);
     });
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[0]);
+    /!*const buttons = screen.getAllByRole('button');
+    fireEvent.click(buttons[0]);*!/
 
-    const date = screen.getByText('2021-12-30');
+    const date = screen.getByText("2022-03-20");
     expect(date).toBeInTheDocument();
 
     /!*const button = screen.getByText('Добавить в корзину');
@@ -81,6 +81,42 @@ describe('Tour', () => {
   it('add to cart', async () => {
     let server = setupServer(
       rest.get(path + '/tours', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(tourMock))
+      )
+    );
+    server.listen();
+
+    render(<Tour token='1' />)
+
+    await waitFor(() => {
+      const buttons = screen.getAllByTestId('button-plus');
+      fireEvent.click(buttons[0])
+    })
+
+    server.close();
+    server.resetHandlers();
+
+    server = setupServer(
+      rest.get(path + '/cart', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(tourMock))
+      )
+    );
+
+    server.listen();
+    const button = screen.getByText('Добавить в корзину');
+    fireEvent.click(button);
+    expect(button).toBeDisabled();
+
+    server.close();
+    server.resetHandlers();
+  });
+
+  it('add to favs', async () => {
+    let server = setupServer(
+      rest.get(path + '/tours', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(tourMock))
+      ),
+      rest.delete('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite/', (req, res, ctx) =>
         res(ctx.status(200), ctx.json(tourMock))
       )
     );

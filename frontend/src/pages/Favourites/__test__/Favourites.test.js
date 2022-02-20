@@ -39,7 +39,7 @@ describe("Favourites", () => {
     server.resetHandlers();
   })
 
-  /*it('fail load', async () => {
+  it('fail load', async () => {
     const server = setupServer(
       rest.get('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/1/favorite', (req, res, ctx) =>
         res(ctx.status(500), ctx.json({}))
@@ -56,7 +56,7 @@ describe("Favourites", () => {
 
     server.close();
     server.resetHandlers();
-  })*/
+  })
 
   it('empty favs', async () => {
     const server = setupServer(
