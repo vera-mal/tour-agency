@@ -35,7 +35,6 @@ describe("Header", () => {
     expect(link).toBeInTheDocument();
     link = screen.getByRole('link', {name: /Корзина/i});
     expect(link).toBeInTheDocument();
-
   })
 
   it('log in for not authorized user', async () => {
