@@ -103,7 +103,7 @@ const Tour = ({token = null, userId = null}) => {
                       value={selectedDate}
                       onChange={handleDate}
                     >
-                      {content.dates.map((date) => <MenuItem value={date}>{date}</MenuItem>)}
+                      {content.dates.map((date, id) => <MenuItem key={id} value={date}>{date}</MenuItem>)}
                     </Select>
                   </FormControl>  
                 </div>   
@@ -129,6 +129,7 @@ const Tour = ({token = null, userId = null}) => {
                   <Button
                     disabled={!token || !selectedDate || !values || !Object.values(values).some((elem) => elem > 0)}
                     onClick={handleAddToCart}
+                    data-testid='add-button'
                   >
                     <i className="fas fa-shopping-cart"/>
                     Добавить в корзину

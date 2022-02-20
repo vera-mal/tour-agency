@@ -42,14 +42,13 @@ const Favourites = ({token = null, userId = null}) => {
       headers: headers
     };
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/favorite/' + id, requestOptions)
-      .then(response => response.json())
+      .then(response => {
+        return response.json().catch(() => {})
+      })
       .then((result) => {
           setContent(content.filter(tour => tour.id !== id));
-          fetchData();
         },
-        (error) => {
-          fetchData();
-        })
+        (error) => {})
   };
 
   return (

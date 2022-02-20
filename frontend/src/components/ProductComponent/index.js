@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import './ProductComponent.css'
-import image from '../../mocks/image1.png'
 import IncDec from "../IncDec";
 import IncDecGroup from "../IncDecGroup";
 import defaultImage from '../../assets/defaultImage.jpg'
@@ -10,7 +9,7 @@ const ProductComponent = ({
     id,
     title = 'Название',
     price = 10,
-    imageUrl = image,
+    imageUrl = '',
     date = '25.12.21',
     type = 'catalogue',
     categories = [
@@ -26,7 +25,7 @@ const ProductComponent = ({
   }) => {
 
   return (
-    <div className={'product-item product-item-' + type}>
+    <div data-testid='product' className={'product-item product-item-' + type}>
       <div className={'product-item-content ' + type}>
         {type === 'catalogue' ? (
             <>

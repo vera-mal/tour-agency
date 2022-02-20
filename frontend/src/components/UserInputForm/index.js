@@ -3,7 +3,7 @@ import "./UserInputForm.css";
 import ClosingButton from "../ClosingButton";
 import {Alert} from "@mui/material";
 
-const UserInputForm = ({OnCloseButtonClick = () => {}, onAuth = () => {}}) => {
+const UserInputForm = ({OnCloseButtonClick = () => {}}) => {
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -49,16 +49,13 @@ const UserInputForm = ({OnCloseButtonClick = () => {}, onAuth = () => {}}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/user', requestOptions)
       .then(response => response.json())
       .then((result) => {
-          console.log(1, result)
           if (result.message) setError('Логин уже занят');
           else {
             setIsSuccess(true);
             setTimeout(OnCloseButtonClick, 5000);
           }
         },
-        (error) => {
-          console.log(2, error);
-        })
+        (error) => {})
   };
 
   return (
@@ -117,7 +114,7 @@ const UserInputForm = ({OnCloseButtonClick = () => {}, onAuth = () => {}}) => {
 
         {isSuccess ?
           <Alert severity="success">
-            Вы успешно зарегистрированы, можете авторизоваться”
+            Вы успешно зарегистрированы, можете авторизоваться
           </Alert>
         : <>
             <button

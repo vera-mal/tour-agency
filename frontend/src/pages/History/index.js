@@ -39,8 +39,8 @@ const History = ({token = null, userId = null}) => {
 
       <div className='history-page'>
       {isLoaded && !error && (content.length !== 0 ?
-        content.map((order) =>
-          <div className='history-page-flex-box'>
+        content.map((order, id) =>
+          <div key={id} className='history-page-flex-box'>
             <div className='history-page-label'><LabelCustom text={'Заказ №' + order.id} /></div>
             <div className='history-page-date'>
               {moment(order.date).locale('ru').format('LLL')}

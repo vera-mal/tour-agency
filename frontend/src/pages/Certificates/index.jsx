@@ -36,9 +36,7 @@ const Certificates = ({token = null, userId = null}) => {
       .then(response => response.json())
       .then((result) => {
         },
-        (error) => {
-        console.log(error)
-        })
+        (error) => {})
   };
 
   return (

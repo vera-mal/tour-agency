@@ -14,7 +14,7 @@ const IncDec = ({onValueChange = () => {}, initialValue = 0}) => {
 
   return (
     <div className='increment-decrement'>
-      <button onClick={() => setValue(value + 1)} className='button plus'><i className="fas fa-plus" /></button>
+      <button data-testid='button-plus' onClick={() => setValue(value + 1)} className='button plus'><i className="fas fa-plus" /></button>
 
       <div className='value'>{value}</div>
 

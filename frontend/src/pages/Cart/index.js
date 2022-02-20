@@ -14,7 +14,7 @@ import ClosingButton from "../../components/ClosingButton";
 
 const Cart = ({token = null, userId = null}) => {
   const [error, setError] = useState(null);
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [windowValues, setWindowValues] = useState(null);
   const [code, setCode] = useState('');
@@ -53,12 +53,9 @@ const Cart = ({token = null, userId = null}) => {
     fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart/' + cartItemId, requestOptions)
       .then(response => response.json())
       .then((result) => {
-          setContent(content.cartItems.filter(product => product.cartItemId !== cartItemId));
-          fetchData();
+          setContent({cartItems: content.cartItems.filter(product => product.cartItemId !== cartItemId)});
         },
-        (error) => {
-          fetchData();
-        })
+        (error) => {})
   };
 
   const handleValueChange = (cartItemId, value) => {
@@ -107,6 +104,8 @@ const Cart = ({token = null, userId = null}) => {
         (error) => {
         })
   };
+
+  console.log(1, content);
 
   return (
     <>
