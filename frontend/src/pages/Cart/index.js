@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import PageHeading from "../../components/PageHeading";
 import Spinner from "../../components/Spinner";
 import ProductComponent from "../../components/ProductComponent";
@@ -9,7 +8,6 @@ import moment from 'moment';
 import 'moment/locale/ru'
 import {Alert} from "@mui/material";
 import FormBackdrop from "../../components/FormBackdrop";
-import UserInputForm from "../../components/UserInputForm";
 import ClosingButton from "../../components/ClosingButton";
 
 const Cart = ({token = null, userId = null}) => {
@@ -70,8 +68,7 @@ const Cart = ({token = null, userId = null}) => {
       .then((result) => {
           setContent({...content, totalPrice: result.totalPrice});
         },
-        (error) => {
-        })
+        (error) => {})
   };
 
   const handleSubmit = () => {
@@ -86,8 +83,7 @@ const Cart = ({token = null, userId = null}) => {
         setContent(null);
         setWindowValues(result);
         },
-        (error) => {
-        })
+        (error) => {})
   };
 
   const applyCode = () => {
@@ -101,17 +97,13 @@ const Cart = ({token = null, userId = null}) => {
       .then((result) => {
         setContent({...content, certificateDiscount: result.certificateDiscount, totalPrice: result.totalPrice})
         },
-        (error) => {
-        })
+        (error) => {})
   };
-
-  console.log(1, content);
 
   return (
     <>
       <PageHeading>Корзина</PageHeading>
       <Spinner isVisible={!isLoaded}/>
-
 
       {!!windowValues && windowValues?.length !== 0 &&
         <FormBackdrop>

@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './ProductComponent.css'
-import IncDec from "../IncDec";
 import IncDecGroup from "../IncDecGroup";
 import defaultImage from '../../assets/defaultImage.jpg'
 import Button from "@mui/material/Button";
@@ -12,11 +11,6 @@ const ProductComponent = ({
     imageUrl = '',
     date = '25.12.21',
     type = 'catalogue',
-    categories = [
-      {category: 'full', amount: 0, price: 0},
-      {category: 'seniors', amount: 0, price: 0},
-      {category: 'minors', amount: 0, price: 0}
-    ],
     prices = {full: 1000, seniors: 500, minors: 500},
     amounts = {full: 1, seniors: 0, minors: 2},
     onAmountChange = null,
@@ -60,9 +54,7 @@ const ProductComponent = ({
                         Добавить в корзину
                       </Button>
                     </div>
-                ) : <>
-
-                </>
+                  ) : <></>
                 }
               </div>
               <div className='product-item-text'>

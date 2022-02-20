@@ -1,4 +1,4 @@
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {fireEvent, getByText, render, screen, waitFor} from '@testing-library/react';
 import React from "react";
 import {setupServer} from "msw/node";
 import { rest } from 'msw';
@@ -111,6 +111,94 @@ describe('Cart', () => {
     await waitFor(() => {
       const products = screen.getAllByTestId('product');
       expect(products).toHaveLength(1);
+    })
+
+    server.close();
+    server.resetHandlers();
+  });
+
+  it('apply code', async () => {
+    const server = setupServer(
+      rest.get(path, (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(mock))
+      ),
+      rest.put(path + '/promocode/1', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json({ certificateDiscount: 1000, totalPrice: 2000 }))
+      ),
+    );
+
+    server.listen();
+    render(<Cart />)
+
+    let input;
+    await waitFor(() => {
+      input = screen.getByPlaceholderText('Промокод');
+    })
+
+    fireEvent.change(input, { target: { value: '1' } });
+    const button = screen.getByText('Применить');
+    fireEvent.click(button);
+    await waitFor(() => {
+      const label = screen.getByText('Применен промокод на сумму 1000 рублей');
+      expect(label).toBeInTheDocument();
+    })
+
+    server.close();
+    server.resetHandlers();
+  });
+
+  it('apply code warning', async () => {
+    const server = setupServer(
+      rest.get(path, (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(mock))
+      ),
+      rest.put(path + '/promocode/1', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json({ certificateDiscount: 3000, totalPrice: 0 }))
+      ),
+    );
+
+    server.listen();
+    render(<Cart />)
+
+    let input;
+    await waitFor(() => {
+      input = screen.getByPlaceholderText('Промокод');
+    })
+
+    fireEvent.change(input, { target: { value: '1' } });
+    const button = screen.getByText('Применить');
+    fireEvent.click(button);
+    await waitFor(() => {
+      const label = screen.getByText('Сумма сертификата превышает сумму заказа. Неиспользованная часть сертификата сгорит.');
+      expect(label).toBeInTheDocument();
+    })
+
+    server.close();
+    server.resetHandlers();
+  });
+
+  it('change value', async () => {
+    const server = setupServer(
+      rest.get(path, (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(mock))
+      ),
+      rest.put(path, (req, res, ctx) =>
+        res(ctx.status(200), ctx.json({ totalPrice: 5000}))
+      ),
+    );
+
+    server.listen();
+    render(<Cart />)
+
+    let buttons;
+    await waitFor(() => {
+      buttons = screen.getAllByTestId('button-plus');
+    })
+
+    fireEvent.click(buttons[0]);
+    await waitFor(() => {
+      const totalPriceChanged = screen.getByText(/Сумма заказа:.*5000/);
+      expect(totalPriceChanged).toBeInTheDocument();
     })
 
     server.close();
