@@ -54,10 +54,6 @@ public class TourServiceImpl implements TourService {
         fullTourDTO.setDescription(tour.getDescription());
         fullTourDTO.setIsLiked(client.getFavorites().contains(tour));
 
-        List<Event> events = tour.getEvents().stream()
-                .filter(e -> e.getTicketAmount() > 0)
-                .collect(Collectors.toList());
-
         fullTourDTO.setDates(eventRepository.findAllByTour(tour)
                 .stream()
                 .map(e -> new DateDTO(e.getDate().toLocalDate(), e.getTicketAmount()))
