@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import touragency.backend.dto.*;
 import touragency.backend.entity.*;
 import touragency.backend.exception.EntityNotFoundException;
+import touragency.backend.exception.TicketsNotAvailableException;
 import touragency.backend.exception.TourIsNotFavoriteException;
 import touragency.backend.repository.*;
 
@@ -102,6 +103,12 @@ public class UserServiceImpl implements UserService {
         Order order = orderRepository.findByClientAndStatus(client, OrderStatus.NEW);
 
         AmountDTO amounts = tourDTO.getAmounts();
+        Integer summ = amounts.getFull() + amounts.getMinors() + amounts.getSeniors();
+        if (summ > event.getTicketAmount()) {
+            throw new TicketsNotAvailableException(event.getTicketAmount());
+        }
+        event.setTicketAmount(event.getTicketAmount() - summ);
+
         TourItem[] tourItems = new TourItem[3];
         tourItems[0] = new TourItem(null, event, discountRepository.getById(1L),
                 amounts.getFull(), tour.getPrice());

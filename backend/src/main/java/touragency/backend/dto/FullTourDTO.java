@@ -18,7 +18,7 @@ public class FullTourDTO {
     private String name;
     private String description;
     private Boolean isLiked;
-    private List<LocalDate> dates;
+    private List<DateDTO> dates;
     private LocalTime time;
     private PriceDTO prices;
 }

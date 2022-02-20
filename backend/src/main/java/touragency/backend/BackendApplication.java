@@ -296,8 +296,8 @@ public class BackendApplication {
             tourRepository.save(tours[11]);
 
             for (int i = 0; i < 12; i++) {
-                Event event1 = new Event(null, tours[i], LocalDateTime.of(2021, 12, 30, 15, 0), 20);
-                Event event2 = new Event(null, tours[i], LocalDateTime.of(2022, 1, 7, 15, 0), 20);
+                Event event1 = new Event(null, tours[i], LocalDateTime.of(2022, 3, 20, 15, 0), 10);
+                Event event2 = new Event(null, tours[i], LocalDateTime.of(2022, 3, 27, 15, 0), 10);
                 eventRepository.save(event1);
                 eventRepository.save(event2);
             }

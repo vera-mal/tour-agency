@@ -3,6 +3,7 @@ package touragency.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import touragency.backend.dto.DateDTO;
 import touragency.backend.dto.FullTourDTO;
 import touragency.backend.dto.PriceDTO;
 import touragency.backend.dto.TourDTO;
@@ -53,12 +54,13 @@ public class TourServiceImpl implements TourService {
         fullTourDTO.setDescription(tour.getDescription());
         fullTourDTO.setIsLiked(client.getFavorites().contains(tour));
 
-        List<Event> events = tour.getEvents();
+        List<Event> events = tour.getEvents().stream()
+                .filter(e -> e.getTicketAmount() > 0)
+                .collect(Collectors.toList());
 
         fullTourDTO.setDates(eventRepository.findAllByTour(tour)
                 .stream()
-                .map(Event::getDate)
-                .map(LocalDateTime::toLocalDate)
+                .map(e -> new DateDTO(e.getDate().toLocalDate(), e.getTicketAmount()))
                 .collect(Collectors.toList()));
         fullTourDTO.setTime(tour.getEvents().get(0).getDate().toLocalTime());
 
