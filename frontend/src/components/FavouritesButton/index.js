@@ -11,7 +11,7 @@ const FavouritesButton = ({isLikedDefault = false, onSelect = () => {}}) => {
 
   return (
     <div className='favourites-button' onClick={handleLike}>
-      <i className={`${isLiked ? 'fas' : 'far'} fa-heart fa-lg`} />
+      <i title="favourites button title" className={`${isLiked ? 'fas' : 'far'} fa-heart fa-lg`} />
     </div>
   );
 };

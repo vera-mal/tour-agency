@@ -3,7 +3,7 @@ import './LabelCustom.css';
 
 const LabelCustom = ({text = "", width = "252px"}) => {
   return (
-    <div className='label-custom' style={{width: width}}>{text}</div>
+    <div title="custom label title" className='label-custom' style={{width: width}}>{text}</div>
   );
 };
 

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 const HelpButton = () => {
   return (
     <Link to='/help' className='helping-button'>
-      <div className='help-button'><i className="fas fa-exclamation fa-3x" /></div>
+      <div title="help button title" className='help-button'><i className="fas fa-exclamation fa-3x" /></div>
     </Link>
   );
 };
