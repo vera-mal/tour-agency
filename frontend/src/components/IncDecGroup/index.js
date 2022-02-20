@@ -18,7 +18,7 @@ const IncDecGroup = ({
   }
 
   return (
-    <div className='increment-decrement-group'>
+    <div data-testid="increment-decrement-group" className='increment-decrement-group'>
       <div className="increment-decrement-group-label">Взрослый</div>
       {isReadOnly ?
         <div
@@ -26,7 +26,7 @@ const IncDecGroup = ({
         >
           {amount.full}
         </div>
-        : <IncDec onValueChange={(value) => handleChange(value, 'full')} initialValue={amount.full}/>
+        : <IncDec title="incdec-1" onValueChange={(value) => handleChange(value, 'full')} initialValue={amount.full}/>
       }
       <div className="increment-decrement-group-price">&#8381;{prices.full}</div>
 

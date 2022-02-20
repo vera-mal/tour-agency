@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 const Footer = ({categories = []}) => {
   return (
     <>
-      <div className='footer'>
+      <div data-testid="footer" className='footer'>
         {categories && categories?.length !== 0 &&
           <>
           <div className='footer-logo-text'>
@@ -21,7 +21,7 @@ const Footer = ({categories = []}) => {
           {categories.map((category) =>
             <Link to={'/' + category.englishName} className='footer-category footer-text'>{category.russianName}</Link>
           )}
-          <Link to='/certificates' className='footer-category footer-text'>Сертификаты</Link>
+          <Link to='/certificates' title="footer certificates link title" className='footer-category footer-text'>Сертификаты</Link>
           <Link to='/help' className='footer-category footer-text'>Помощь</Link>
           </div>
 
