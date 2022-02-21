@@ -41,8 +41,8 @@ const AuthorizationForm = ({OnCloseButtonClick = () => {}, onSubmit = () => {}, 
     fetch('https://enigmatic-journey-19735.herokuapp.com/https://bellissimo-tour-agency.herokuapp.com/bellissimo/login', requestOptions)
       .then(response => response.json())
       .then((result) => {
-        console.log(result);
         if (result.access_token) {
+          setFormData({...formData, password: ''})
           onSubmit(result.access_token, result.id);
           OnCloseButtonClick();
         }
@@ -50,15 +50,11 @@ const AuthorizationForm = ({OnCloseButtonClick = () => {}, onSubmit = () => {}, 
             setError('Неверный логин и/или пароль');
             setFormData({...formData, password: ''})
           }
-        },
-        (error) => {
-          console.log(2, error);
-        })
+        });
   };
 
   return (
     <div className="authorization-form">
-      {token}
       <div className="authorization-form-closing-button">
         <ClosingButton onClick={OnCloseButtonClick}/>
       </div>

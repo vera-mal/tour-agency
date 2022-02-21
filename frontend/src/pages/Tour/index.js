@@ -77,11 +77,10 @@ const Tour = ({token = null, userId = null}) => {
       fetch('https://bellissimo-tour-agency.herokuapp.com/bellissimo/users/' + (userId || 1) + '/cart', requestOptions)
         .then(response => response.json())
         .then((result) => {
+            if (result?.error && result?.message) return;
             setValues(null);
             setDate('');
-          },
-          (error) => {
-          })
+          });
     } else setSubmitError(true);
   };
 
@@ -99,11 +98,11 @@ const Tour = ({token = null, userId = null}) => {
                   Пожалуйста, выберите другое количество билетов
                 </Alert>
               }
-            </div>            
+            </div>
             <div>
-              <div className='tour-page-heading'><PageHeading >{content.name}</PageHeading></div>              
+              <div className='tour-page-heading'><PageHeading >{content.name}</PageHeading></div>
               <div className='tour-description'>{content.description}</div>
-              <div className='tour-form-control-flash-box'>  
+              <div className='tour-form-control-flash-box'>
                 <div className='tour-form-control'>
                   <FormControl variant='standard' fullWidth>
                     <InputLabel id="demo-simple-select-label">Дата</InputLabel>
@@ -113,11 +112,12 @@ const Tour = ({token = null, userId = null}) => {
                       label="Time"
                       value={selectedDate}
                       onChange={handleDate}
+                      data-testid='select-mui'
                     >
-                      {content.dates.map(({date}, id) => <MenuItem key={id} value={date}>{date}</MenuItem>)}
+                      {content.dates.map(({date}, id) => <MenuItem data-testid='option-mui' key={id} value={date}>{date}</MenuItem>)}
                     </Select>
-                  </FormControl>  
-                </div>   
+                  </FormControl>
+                </div>
                 <div className='tour-time'>{moment(content.time, 'HH:mm:ss').format('HH:mm')}</div>
               </div>
               <div className='tour-inc-dec'>

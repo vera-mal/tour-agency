@@ -22,8 +22,8 @@ describe("UserInputForm", () => {
     expect(button).toBeDisabled();
   })
 
-  it('not showing password validation fail', async () => {
-    /*render(<UserInputForm />);
+  /*it('not showing password validation fail', async () => {
+    render(<UserInputForm />);
     const inputElements = screen.getAllByPlaceholderText('Пароль');
     expect(inputElements.length).toEqual(2);
 
@@ -31,8 +31,8 @@ describe("UserInputForm", () => {
     // fireEvent.change(inputElements[1], { target: { value: '12' } });
 
     const warning = screen.queryByText('Пароли не совпадают');
-    expect(warning).not.toBeInTheDocument();*/
-  })
+    expect(warning).not.toBeInTheDocument();
+  })*/
 
   it('password validation fail', async () => {
     render(<UserInputForm />);

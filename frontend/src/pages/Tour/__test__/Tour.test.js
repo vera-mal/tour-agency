@@ -1,4 +1,5 @@
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {fireEvent, render, screen, waitFor, within} from '@testing-library/react';
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import {setupServer} from "msw/node";
 import { rest } from 'msw';
@@ -51,7 +52,7 @@ describe('Tour', () => {
     server.resetHandlers();
   });
 
-  /*it('allow to add', async () => {
+  it('allow to add', async () => {
     const server = setupServer(
       rest.get(path + '/tours', (req, res, ctx) =>
         res(ctx.status(200), ctx.json(tourMock))
@@ -61,22 +62,30 @@ describe('Tour', () => {
 
     render(<Tour token='1' />);
 
+    let buttons;
     await waitFor(() => {
-      const buttons = screen.getAllByTestId('button-plus');
-      fireEvent.click(buttons[0]);
+      buttons = screen.getAllByTestId('button-plus');
     });
-    /!*const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[0]);*!/
 
-    const date = screen.getByText("2022-03-20");
-    expect(date).toBeInTheDocument();
+    const selectLabel = 'Дата';
+    const selectEl = await screen.findByLabelText(selectLabel);
 
-    /!*const button = screen.getByText('Добавить в корзину');
-    expect(button).not.toBeDisabled();*!/
+    expect(selectEl).toBeInTheDocument();
+
+    userEvent.click(selectEl);
+
+    const optionsPopupEl = await screen.findByRole("listbox");
+
+    const opt = within(optionsPopupEl).getByText("2022-03-20");
+    userEvent.click(opt);
+    fireEvent.click(buttons[0]);
+
+    const button = screen.getByText('Добавить в корзину');
+    expect(button).not.toBeDisabled();
 
     server.close();
     server.resetHandlers();
-  });*/
+  });
 
   it('add to cart', async () => {
     let server = setupServer(
@@ -146,4 +155,87 @@ describe('Tour', () => {
     server.close();
     server.resetHandlers();
   });
-})
+
+  it('add to cart', async () => {
+    let server = setupServer(
+      rest.get(path + '/tours', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(tourMock))
+      ),
+      rest.post(path + '/cart', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json({}))
+      )
+    );
+    server.listen();
+
+    render(<Tour token='1' />);
+
+    let buttons;
+    await waitFor(() => {
+      buttons = screen.getAllByTestId('button-plus');
+    });
+
+    const selectLabel = 'Дата';
+    const selectEl = await screen.findByLabelText(selectLabel);
+
+    userEvent.click(selectEl);
+
+    const optionsPopupEl = await screen.findByRole("listbox");
+
+    const opt = within(optionsPopupEl).getByText("2022-03-20");
+    userEvent.click(opt);
+    fireEvent.click(buttons[0]);
+
+    const button = screen.getByText('Добавить в корзину');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const date = screen.queryByText("2022-03-20");
+      expect(date).not.toBeInTheDocument();
+    });
+
+    server.close();
+    server.resetHandlers();
+  });
+
+  it('fail add to cart', async () => {
+    let server = setupServer(
+      rest.get(path + '/tours', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(tourMock))
+      ),
+      rest.post(path + '/cart', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json({}))
+      )
+    );
+    server.listen();
+
+    render(<Tour token='1' />);
+
+    let buttons;
+    await waitFor(() => {
+      buttons = screen.getAllByTestId('button-plus');
+    });
+
+    const selectLabel = 'Дата';
+    const selectEl = await screen.findByLabelText(selectLabel);
+
+    userEvent.click(selectEl);
+
+    const optionsPopupEl = await screen.findByRole("listbox");
+
+    const opt = within(optionsPopupEl).getByText("2022-03-20");
+    userEvent.click(opt);
+
+    for (let i = 0; i < 11; i++ ) {
+      fireEvent.click(buttons[0]);
+    }
+
+    const button = screen.getByText('Добавить в корзину');
+    fireEvent.click(button);
+
+    const date = screen.queryByText("Пожалуйста, выберите другое количество билетов");
+    expect(date).toBeInTheDocument();
+
+    server.close();
+    server.resetHandlers();
+  });
+});
