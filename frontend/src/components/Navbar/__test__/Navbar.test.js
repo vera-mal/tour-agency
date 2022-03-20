@@ -32,6 +32,14 @@ describe("Navbar", () => {
     }
   ];
 
+  const categoriesMockError = [
+    {
+      "id": 1,
+      "englishName": "kek",
+      "russianName": "кек"
+    },
+  ];
+
   const MockNavbar = (props) =>
     <BrowserRouter>
       <Navbar {...props} />
@@ -41,5 +49,27 @@ describe("Navbar", () => {
     render(<MockNavbar categories={categoriesMock} />);
     const links = screen.getAllByRole('link');
     expect(links.length).toEqual(7);
+  })
+  it('navbar categories test', async () => {
+    render(<MockNavbar categories={[]} />);
+    const links = screen.queryAllByRole('link');
+    expect(links.length).toEqual(0);
+  })
+
+  it('navbar to be in document test', async () => {
+    render(<MockNavbar categories={[]} />);
+    const element = screen.getByTestId('navbar');
+    expect(element).toBeInTheDocument();
+  })
+
+  it('navbar default test', async () => {
+    render(<MockNavbar categories={categoriesMockError} />);
+    const el = screen.getByTestId("icon");
+    expect(el).toHaveClass("icon fas fa-map-marker-alt");
+  })
+  it('navbar to be in document test 2', async () => {
+    render(<MockNavbar />);
+    const element = screen.getByTestId('navbar');
+    expect(element).toBeInTheDocument();
   })
 });

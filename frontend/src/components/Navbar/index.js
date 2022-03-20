@@ -17,7 +17,7 @@ const Navbar = ({categories = []}) => {
   const location = useLocation();
 
   return (
-    <div className='navbar'>
+    <div data-testid="navbar" className='navbar'>
       {categories && categories?.length !== 0 &&
         <>
           <Link to='/' className={'category' + (location.pathname === '/' ? ' category-blue' : '')}>
@@ -30,7 +30,7 @@ const Navbar = ({categories = []}) => {
               to={'/category/' + category.englishName}
               className={'category' + (location.pathname === '/category/' + category.englishName ? ' category-blue' : '')}
             >
-              <i className={'icon fas ' + getIcon(category.englishName)} />
+              <i data-testid="icon" className={'icon fas ' + getIcon(category.englishName)} />
               <div className='name'>{category.russianName}</div>
             </Link>
           )}
