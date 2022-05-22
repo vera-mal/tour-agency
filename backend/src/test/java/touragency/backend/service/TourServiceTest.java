@@ -1,13 +1,10 @@
 package touragency.backend.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.util.Assert;
-import touragency.backend.dto.DateDTO;
 import touragency.backend.dto.FullTourDTO;
 import touragency.backend.dto.PriceDTO;
 import touragency.backend.dto.TourDTO;
@@ -16,7 +13,6 @@ import touragency.backend.exception.EntityNotFoundException;
 import touragency.backend.repository.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +114,8 @@ public class TourServiceTest {
         Mockito.when(tourRepository.findById(Mockito.any())).thenReturn(Optional.of(testTour));
         Mockito.when(eventRepository.findAllByTour(Mockito.any())).thenReturn(List.of(event));
         List<Discount> discounts = List.of(new Discount(1L, "full", BigDecimal.valueOf(1)),
-                                           new Discount(2L, "child", BigDecimal.valueOf(0.7)),
-                                           new Discount(3L, "senior", BigDecimal.valueOf(0.5)));
+                new Discount(2L, "child", BigDecimal.valueOf(0.7)),
+                new Discount(3L, "senior", BigDecimal.valueOf(0.5)));
         Mockito.when(discountRepository.findAll()).thenReturn(discounts);
 
         FullTourDTO dto = tourService.getTour(client.getId(), testTour.getId());

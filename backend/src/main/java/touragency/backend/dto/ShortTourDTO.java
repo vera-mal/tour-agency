@@ -1,6 +1,7 @@
 package touragency.backend.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import touragency.backend.entity.Tour;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class ShortTourDTO {
     private Long id;
     private String images;

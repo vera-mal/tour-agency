@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
         Order newOrder = new Order(null, OrderStatus.NEW, LocalDateTime.now(), BigDecimal.ZERO,
                 null, newClient, new ArrayList<>());
         orderRepository.save(newOrder);
-
         return new UserDTO(newClient.getId(), newClient.getName(), newClient.getSurname(), newClient.getLogin());
     }
 

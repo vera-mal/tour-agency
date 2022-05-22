@@ -1,5 +1,8 @@
 package touragency.backend.dto;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Pair {
     private String label;
     private String text;
